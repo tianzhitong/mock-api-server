@@ -15,16 +15,19 @@ datasource db {
 
 model Mock {
   id    Int    @id @default(autoincrement())
-  project_name String
-  api_name String
-  api_method String
-  query String
-  response_to_mock_struct_data String
+  project_name String @db.VarChar(255)
+  api_name String @db.VarChar(255)
+  api_method String @db.Char(6)
+  query String? @db.VarChar(255)
+  response_to_mock_struct_data String @db.VarChar(255)
+  create_time DateTime @default(now()) @db.Timestamp(6)
+  @@map("mock")
 }
 
 model User {
   id Int @id @default(autoincrement())
-  user_name String
-  password String
-  nick_name String
+  user_name String @db.VarChar(255)
+  password String @db.VarChar(255)
+  nick_name String @db.VarChar(255)
+  @@map("user")
 }
