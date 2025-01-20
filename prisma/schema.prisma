@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Mock {
-  id                           BigInt    @id @default(autoincrement())
+  id                           Int    @id @default(autoincrement())
   project_name                 String    @default("default") @db.VarChar(255)
   api_url                      String    @db.VarChar(255)
   api_method                   String    @db.Char(6)
@@ -29,7 +29,7 @@ model Mock {
 }
 
 model User {
-  id        BigInt    @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   account   String    @unique @db.VarChar(255)
   password  String    @db.VarChar(255)
   role      Role      @default(USER)

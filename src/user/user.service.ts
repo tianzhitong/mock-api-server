@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-21 02:26:53
+ * @LastEditTime: 2025-01-21 02:59:48
  * @FilePath: /mock-api-serve/src/user/user.service.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -24,11 +24,19 @@ export class UserService {
         const skip = (Number(query.pageNum) - 1) * Number(query.pageSize);
         const take = Number(query.pageSize);
 
+        const where = {};
+        if (query.account) {
+            where['account'] = query.account;
+        }
+        if (query.nickName) {
+            where['nick_name'] = query.nickName;
+        }
+
         return this.prisma.$transaction(async (tx) => {
             const findManyUserList = await tx.user.findMany({
-                where: {
-                    account: query.account,
-                    nick_name: query.nickName,
+                where,
+                omit: {
+                    password: true,
                 },
                 skip,
                 take,

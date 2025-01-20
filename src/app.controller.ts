@@ -17,7 +17,7 @@ export class AppController {
     constructor(private readonly appService: AppService) {}
 
     @Get('health')
-    @ApiResult({model: String})
+    @ApiResult({ model: String })
     getHello(): string {
         return this.appService.getHello();
     }
