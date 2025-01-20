@@ -2,11 +2,12 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-20 21:31:20
+ * @LastEditTime: 2025-01-20 22:13:48
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { NestFactory } from '@nestjs/core';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AppModule } from './app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -18,11 +19,16 @@ import { ConfigService } from '@nestjs/config';
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
         cors: true,
+        bufferLogs: true,
     });
 
+    // 更换日志系统
+    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
     // 读取环境配置
     const envConfig = app.get(ConfigService);
     const PORT = envConfig.get<number>('app.port') ?? 8080;
+
+    // 启用接口限制器
     app.register(fastifyRateLimit, {
         max: 1000,
         timeWindow: '15 minute',
@@ -44,6 +50,7 @@ async function bootstrap() {
             scheme: 'bearer',
         })
         .build();
+
     // 使用配置对象创建 Swagger 文档
     const document = SwaggerModule.createDocument(app, config);
     // 生成的openai数据写入到本地项目
