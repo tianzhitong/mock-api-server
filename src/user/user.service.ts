@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-21 00:30:12
+ * @LastEditTime: 2025-01-21 02:26:53
  * @FilePath: /mock-api-serve/src/user/user.service.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -11,6 +11,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BcryptService } from 'src/utils/services/bcrypt/bcrypt.service';
 import { $Enums } from '@prisma/client';
+import { GetUserListDto } from './dto/get-user-list.dto';
 
 @Injectable()
 export class UserService {
@@ -19,9 +20,26 @@ export class UserService {
         private bcrypt: BcryptService,
     ) {}
 
-    async getUserList() {
-        const res = await this.prisma.user.findMany();
-        return res;
+    getUserList(query: GetUserListDto) {
+        const skip = (Number(query.pageNum) - 1) * Number(query.pageSize);
+        const take = Number(query.pageSize);
+
+        return this.prisma.$transaction(async (tx) => {
+            const findManyUserList = await tx.user.findMany({
+                where: {
+                    account: query.account,
+                    nick_name: query.nickName,
+                },
+                skip,
+                take,
+            });
+            const total = await tx.user.count();
+
+            return {
+                data: findManyUserList,
+                total,
+            };
+        });
     }
 
     async findUserInfoByAccount(account: string) {

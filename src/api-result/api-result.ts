@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-20 18:31:48
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-20 19:10:16
+ * @LastEditTime: 2025-01-21 02:18:00
  * @FilePath: /mock-api-serve/src/api-result/api-result.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -47,6 +47,14 @@ export const ApiResult = <TModel extends Type<any>>(props: ApiResultProps<TModel
                     items,
                 },
                 total: {
+                    type: 'number',
+                    default: 0,
+                },
+                pageSize: {
+                    type: 'number',
+                    default: 0,
+                },
+                PageNum: {
                     type: 'number',
                     default: 0,
                 },

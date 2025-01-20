@@ -18,7 +18,48 @@
     "/mock/user/getUserList": {
       "get": {
         "operationId": "UserController_getUserList",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "pageSize",
+            "required": true,
+            "in": "query",
+            "description": "一页多少条",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageNum",
+            "required": true,
+            "in": "query",
+            "description": "第几页",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "nickName",
+            "required": false,
+            "in": "query",
+            "description": "昵称",
+            "schema": {
+              "example": "",
+              "type": "string"
+            }
+          },
+          {
+            "name": "account",
+            "required": false,
+            "in": "query",
+            "description": "账号",
+            "schema": {
+              "example": "",
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -41,6 +82,14 @@
                               }
                             },
                             "total": {
+                              "type": "number",
+                              "default": 0
+                            },
+                            "pageSize": {
+                              "type": "number",
+                              "default": 0
+                            },
+                            "PageNum": {
                               "type": "number",
                               "default": 0
                             }
