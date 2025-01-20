@@ -161,7 +161,15 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "获取验证码",
+            "content": {
+              "image/svg+xml": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
           }
         },
         "tags": [
