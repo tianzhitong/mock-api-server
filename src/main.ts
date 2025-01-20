@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-20 22:13:48
+ * @LastEditTime: 2025-01-20 23:53:47
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -15,6 +15,8 @@ import { writeFileSync } from 'fs';
 import { join } from 'path';
 import * as fastifyRateLimit from '@fastify/rate-limit';
 import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
@@ -22,6 +24,10 @@ async function bootstrap() {
         bufferLogs: true,
     });
 
+    // 管道 whitelist-不想包含未定义的属性
+    app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+    // 作用就是可以让自定义校验器可以支持依赖注入
+    useContainer(app.select(AppModule), { fallbackOnErrors: true });
     // 更换日志系统
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
     // 读取环境配置
@@ -34,7 +40,7 @@ async function bootstrap() {
         timeWindow: '15 minute',
     });
 
-    // 启用全局前缀
+    // 启用全局接口前缀
     app.setGlobalPrefix('mock');
 
     // Swagger 配置

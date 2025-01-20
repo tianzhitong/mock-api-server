@@ -189,7 +189,7 @@
           "role": {
             "type": "string",
             "nullable": true,
-            "description": "角色 USER ADMIN",
+            "description": "角色 USER|ADMIN",
             "default": "USER"
           },
           "nick_name": {
