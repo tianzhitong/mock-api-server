@@ -1,17 +1,35 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/mock": {
+    "/mock/health": {
       "get": {
         "operationId": "AppController_getHello",
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ResultData"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "tags": [
-          "App"
+          "Health"
         ]
       }
     },
