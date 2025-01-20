@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-20 20:52:38
+ * @LastEditTime: 2025-01-20 21:31:20
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -13,12 +13,16 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 import * as fastifyRateLimit from '@fastify/rate-limit';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
         cors: true,
     });
 
+    // 读取环境配置
+    const envConfig = app.get(ConfigService);
+    const PORT = envConfig.get<number>('app.port') ?? 8080;
     app.register(fastifyRateLimit, {
         max: 1000,
         timeWindow: '15 minute',
@@ -49,6 +53,6 @@ async function bootstrap() {
         jsonDocumentUrl: 'swagger/json',
     });
 
-    await app.listen(process.env.PORT ?? 3000);
+    await app.listen(PORT);
 }
 bootstrap();
