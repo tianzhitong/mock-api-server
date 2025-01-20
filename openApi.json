@@ -37,7 +37,7 @@
                             "list": {
                               "type": "array",
                               "items": {
-                                "$ref": "#/components/schemas/CreateUserDto"
+                                "$ref": "#/components/schemas/UserInfoVO"
                               }
                             },
                             "total": {
@@ -122,6 +122,38 @@
           "User"
         ]
       }
+    },
+    "/mock/user/findUserInfo": {
+      "get": {
+        "operationId": "UserController_findUserInfo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ResultData"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/UserInfoVO"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
     }
   },
   "info": {
@@ -173,18 +205,16 @@
           "success"
         ]
       },
-      "CreateUserDto": {
+      "UserInfoVO": {
         "type": "object",
         "properties": {
           "account": {
             "type": "string",
-            "description": "账号",
-            "default": "账号"
+            "description": "账号"
           },
           "password": {
             "type": "string",
-            "description": "密码",
-            "default": "密码"
+            "description": "密码"
           },
           "role": {
             "type": "string",
