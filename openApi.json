@@ -154,6 +154,20 @@
           "User"
         ]
       }
+    },
+    "/mock/user/getCaptcha": {
+      "get": {
+        "operationId": "UserController_getCaptcha",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
     }
   },
   "info": {

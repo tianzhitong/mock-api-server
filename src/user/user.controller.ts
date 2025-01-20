@@ -2,22 +2,27 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-21 00:28:11
+ * @LastEditTime: 2025-01-21 01:24:00
  * @FilePath: /mock-api-serve/src/user/user.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ApiResult } from 'src/api-result/api-result';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDTO } from './dto/login-user.dto';
 import { UserInfoVO } from './vo/user-info.vo';
+import { SvgCaptchaService } from 'src/utils/services/svg-captcha/svg-captcha.service';
+import { Response } from 'express';
 
 @ApiTags('User')
 @Controller('user')
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        private readonly userService: UserService,
+        private readonly svgCaptchaService: SvgCaptchaService,
+    ) {}
 
     @Get('getUserList')
     @ApiResult({
@@ -61,5 +66,21 @@ export class UserController {
         // TODO
         // 获取请求头的token信息，进行查询数据库数据
         return this.userService.findUserInfoById(0);
+    }
+
+    @Get('getCaptcha')
+    // @ApiResult({ model: String })
+    @ApiResponse({
+        status: 200,
+    })
+    async getCaptcha(@Res() res: Response) {
+        // 生成验证码svg数据
+        const genSvgData = await this.svgCaptchaService.generateCaptcha({
+            size: 4,
+            ignoreChars: '0o1il',
+        });
+
+        res.type('image/svg+xml');
+        res.send(genSvgData.data);
     }
 }
