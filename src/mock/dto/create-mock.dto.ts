@@ -2,12 +2,11 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-20 19:53:54
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-20 20:04:25
+ * @LastEditTime: 2025-01-20 20:16:25
  * @FilePath: /mock-api-serve/src/mock/dto/create-mock.dto.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { ApiProperty } from '@nestjs/swagger';
-import { $Enums } from '@prisma/client';
 
 export class ApiUrlListDto {
     @ApiProperty({ required: true, type: String, description: '接口列表', default: '密码' })

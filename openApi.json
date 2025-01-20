@@ -1,0 +1,220 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/mock": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/mock/user/getUserList": {
+      "get": {
+        "operationId": "UserController_getUserList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ResultData"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "list": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/CreateUserDto"
+                              }
+                            },
+                            "total": {
+                              "type": "number",
+                              "default": 0
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/mock/user/createUserInfo": {
+      "post": {
+        "operationId": "UserController_createUserInfo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ResultData"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/mock/user/login": {
+      "post": {
+        "operationId": "UserController_login",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ResultData"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Mock API",
+    "description": "The Mock API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "MOCK",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "connect.sid"
+      },
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "ResultData": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "default": 200
+          },
+          "msg": {
+            "type": "string",
+            "default": "ok"
+          },
+          "success": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "code",
+          "msg",
+          "success"
+        ]
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string",
+            "description": "账号",
+            "default": "账号"
+          },
+          "password": {
+            "type": "string",
+            "description": "密码",
+            "default": "密码"
+          },
+          "role": {
+            "type": "string",
+            "nullable": true,
+            "description": "角色 USER ADMIN",
+            "default": "USER"
+          },
+          "nick_name": {
+            "type": "string",
+            "description": "昵称",
+            "default": "昵称"
+          },
+          "avator": {
+            "type": "string",
+            "default": "头像"
+          },
+          "sex": {
+            "type": "string",
+            "default": "UNKNOW"
+          }
+        },
+        "required": [
+          "account",
+          "password",
+          "role",
+          "nick_name",
+          "avator",
+          "sex"
+        ]
+      }
+    }
+  }
+}

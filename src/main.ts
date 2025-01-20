@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-20 19:41:03
+ * @LastEditTime: 2025-01-20 20:52:38
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -10,11 +10,20 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
+import * as fastifyRateLimit from '@fastify/rate-limit';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), {
         cors: true,
     });
+
+    app.register(fastifyRateLimit, {
+        max: 1000,
+        timeWindow: '15 minute',
+    });
+
     // 启用全局前缀
     app.setGlobalPrefix('mock');
 
@@ -33,6 +42,8 @@ async function bootstrap() {
         .build();
     // 使用配置对象创建 Swagger 文档
     const document = SwaggerModule.createDocument(app, config);
+    // 生成的openai数据写入到本地项目
+    writeFileSync(join(process.cwd(), 'openApi.json'), JSON.stringify(document, null, 2));
     // 设置 Swagger 模块的路径和文档对象，将 Swagger UI 绑定到 '/api-doc' 路径上
     SwaggerModule.setup('api-doc', app, document, {
         jsonDocumentUrl: 'swagger/json',
