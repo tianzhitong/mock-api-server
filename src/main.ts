@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 00:13:26
+ * @LastEditTime: 2025-01-23 00:28:22
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -33,7 +33,7 @@ async function bootstrap() {
     const envConfig = app.get(ConfigService);
 
     // 获取端口号
-    const PORT = envConfig.get<number>('app.port') ?? 8080;
+    const { port = 3000, globalApiPrefix } = envConfig.get('app');
 
     // 启用接口限制器
     app.register(fastifyRateLimit, {
@@ -42,11 +42,11 @@ async function bootstrap() {
     });
 
     // 启用全局接口前缀
-    app.setGlobalPrefix('mock');
+    app.setGlobalPrefix(globalApiPrefix);
 
     // 根据环境判断是否启用swagger文档
     setupSwagger(app, envConfig);
 
-    await app.listen(PORT);
+    await app.listen(port);
 }
 bootstrap();

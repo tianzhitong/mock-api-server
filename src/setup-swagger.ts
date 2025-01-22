@@ -14,10 +14,9 @@ import { writeFileSync } from 'fs';
 import { join } from 'path';
 
 export const setupSwagger = (app: INestApplication, configService: ConfigService) => {
-    const enableSwagger = configService.get<boolean>('swagger.enabled');
-    const swaggerPath = configService.get<string>('swagger.path');
+    const { enabled, path } = configService.get('swagger');
 
-    if (!enableSwagger) return;
+    if (!enabled) return;
 
     // Swagger 配置
     const config = new DocumentBuilder()
@@ -38,11 +37,9 @@ export const setupSwagger = (app: INestApplication, configService: ConfigService
     // 生成的openai数据写入到本地项目
     writeFileSync(join(process.cwd(), 'openApi.json'), JSON.stringify(document, null, 2));
     // 设置 Swagger 模块的路径和文档对象，将 Swagger UI 绑定到 '/api-doc' 路径上
-    SwaggerModule.setup(swaggerPath, app, document, {
+    SwaggerModule.setup(path, app, document, {
         jsonDocumentUrl: 'swagger/json',
     });
 
-    console.log(
-        `Swagger UI available at ----> http://localhost:${configService.get<number>('app.port')}/${swaggerPath}`,
-    );
+    console.log(`Swagger UI available at ----> http://localhost:${configService.get<number>('app.port')}/${path}`);
 };
