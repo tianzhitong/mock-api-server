@@ -19,7 +19,7 @@ CREATE TABLE `user` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `username` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `role` ENUM('user', 'admin') NOT NULL DEFAULT 'user',
+    `role` ENUM('1', '2') NOT NULL DEFAULT '1',
     `create_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `update_at` DATETIME(3) NOT NULL,
     `delete_at` DATETIME(3) NULL,

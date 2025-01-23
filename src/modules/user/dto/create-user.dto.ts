@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-20 14:37:23
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 19:43:32
+ * @LastEditTime: 2025-01-24 01:09:04
  * @FilePath: /mock-api-serve/src/user/dto/create-user.dto.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -11,19 +11,21 @@ import { $Enums } from '@prisma/client';
 import { IsEnum, IsOptional, Length, MinLength } from 'class-validator';
 
 export class CreateUserDto {
-    @Length(11, 50)
+    @Length(5, 50, {
+        message: '账号至少5位数',
+    })
     @ApiProperty({ required: true, type: String, description: '账号', default: '账号' })
     username: string;
 
     @MinLength(6, {
-        message: '密码太短了',
+        message: '密码至少六位数',
     })
     @ApiProperty({ required: true, type: String, description: '密码', default: '密码' })
     password: string;
 
     @ApiProperty({
         nullable: true,
-        description: '角色 USER|ADMIN',
+        example: '角色 USER|ADMIN',
         default: $Enums.Role.USER,
     })
     @IsOptional()
@@ -31,20 +33,19 @@ export class CreateUserDto {
     role?: $Enums.Role;
 
     @ApiProperty({
-        description: '昵称',
-        default: '昵称',
+        example: '昵称',
     })
     @IsOptional()
     nick_name?: string;
 
     @ApiProperty({
-        default: '头像',
+        example: '头像',
     })
     @IsOptional()
     avator?: string;
 
     @ApiProperty({
-        default: $Enums.Sex.UNKNOW,
+        example: $Enums.Sex.UNKNOW,
     })
     @IsOptional()
     @IsEnum($Enums.Sex)

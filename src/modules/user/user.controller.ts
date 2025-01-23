@@ -2,11 +2,21 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 20:54:46
+ * @LastEditTime: 2025-01-24 00:59:26
  * @FilePath: /mock-api-serve/src/user/user.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Get,
+    Post,
+    Query,
+    Req,
+    Res,
+    UseInterceptors,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,12 +26,28 @@ import { Response } from 'express';
 import { GetUserListDto } from './dto/get-user-list.dto';
 import { ApiResult } from 'src/common/decorators/api-result.decorator';
 import { captcha } from 'src/utils/captcha.util';
-import transReponseListData from 'src/utils/transReponseListData.util';
+import transReponseListData from 'src/utils/trans-reponse-list-data.util';
+import { bcrypt } from 'src/utils/bcrypt.util';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRedis } from 'src/common/decorators/inject-redis.decorator';
+import Redis from 'ioredis';
+import { genAuthTokenKey } from 'src/helper/genRedisKey';
+import { ConfigService } from '@nestjs/config';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from '@prisma/client';
+import { FastifyRequest } from 'fastify';
+import { UserEntity } from './user-entity';
 
 @ApiTags('User')
 @Controller('user')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        @InjectRedis() private readonly redis: Redis,
+        private readonly userService: UserService,
+        private jwtService: JwtService,
+        private readonly configService: ConfigService,
+    ) {}
 
     @Get('getUserList')
     @ApiResult({
@@ -40,42 +66,48 @@ export class UserController {
     }
 
     @Post('createUserInfo')
-    @ApiResult({ model: Boolean })
-    async createUserInfo(@Body('createUserDto') createUserDto: CreateUserDto) {
-        const res = await this.userService.createUserInfo(createUserDto);
-        return res.id > 0;
+    async createUserInfo(@Body() createUserDto: CreateUserDto) {
+        await this.userService.createUserInfo(createUserDto);
     }
 
     @Post('login')
-    @ApiResult({ model: Boolean })
-    async login(@Body('loginUserDTO') loginUserDTO: LoginUserDTO) {
+    @ApiResult({ model: String })
+    async login(@Body() loginUserDTO: LoginUserDTO) {
         // 【1】查看账号是否存在
         const userExist = await this.userService.findUserInfoByAccount(loginUserDTO.username);
-        if (!userExist.id) {
+        if (!userExist) {
             throw new Error('暂未找到该用户');
         }
 
-        // 【2】密码进行转换。对比是否存在该用户
-        const findTrueUser = await this.userService.findUserInfoByAccountAndPassword(
-            loginUserDTO.username,
-            loginUserDTO.password,
-        );
-        if (!findTrueUser.id) {
+        // 【2】比对密码是否相同
+        const passwordEq = await bcrypt.comparePassword(loginUserDTO.password, userExist.password);
+        if (!passwordEq) {
             throw new Error('密码不正确');
         }
-        // 生成token 存储在redis里。做持久化存储和踢人功能
+
+        // 【3】删除密码信息
+        Reflect.deleteProperty(userExist, 'password');
+
+        // 【4】生成token 存储在redis里。做持久化存储和踢人功能
+        const token = await this.jwtService.signAsync(userExist);
+        this.redis.set(
+            genAuthTokenKey(userExist.id),
+            JSON.stringify(userExist),
+            'EX',
+            this.configService.get('jwt.jwtExprire'),
+        );
+        return token;
     }
 
     @Get('findUserInfo')
-    @ApiResult({ model: UserInfoVO })
-    async findUserInfo() {
-        // TODO
-        // 获取请求头的token信息，进行查询数据库数据
-        return this.userService.findUserInfoById(0);
+    @Roles(Role.USER, Role.ADMIN)
+    @ApiResult({ model: UserEntity })
+    async findUserInfo(@Req() req: FastifyRequest) {
+        const userInfo = await this.userService.findUserInfoById(+req.user.id);
+        return new UserEntity(userInfo);
     }
 
     @Get('getCaptcha')
-    // @ApiResult({ model: String })
     @ApiResponse({
         status: 200,
         description: '获取验证码',
