@@ -26,6 +26,34 @@
             }
           },
           {
+            "name": "username",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "账号",
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "required": false,
+            "in": "query",
+            "description": "密码",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "required": false,
+            "in": "query",
+            "description": "角色权限",
+            "schema": {
+              "example": "USER",
+              "type": "string"
+            }
+          },
+          {
             "name": "nickName",
             "required": false,
             "in": "query",
@@ -36,12 +64,22 @@
             }
           },
           {
-            "name": "username",
+            "name": "avator",
             "required": false,
             "in": "query",
-            "description": "账号",
+            "description": "头像",
             "schema": {
               "example": "",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sex",
+            "required": false,
+            "in": "query",
+            "description": "性别",
+            "schema": {
+              "example": "UNKNOW",
               "type": "string"
             }
           }
@@ -64,7 +102,7 @@
                             "list": {
                               "type": "array",
                               "items": {
-                                "$ref": "#/components/schemas/UserInfoVO"
+                                "$ref": "#/components/schemas/UserEntity"
                               }
                             },
                             "total": {
@@ -473,42 +511,38 @@
           "message"
         ]
       },
-      "UserInfoVO": {
+      "UserEntity": {
         "type": "object",
         "properties": {
           "username": {
             "type": "string",
-            "description": "账号"
-          },
-          "password": {
-            "type": "string",
-            "description": "密码"
+            "example": "账号"
           },
           "role": {
             "type": "string",
-            "nullable": true,
-            "description": "角色 USER|ADMIN",
-            "default": "USER"
+            "description": "角色权限",
+            "example": "USER"
           },
-          "nick_name": {
+          "nickName": {
             "type": "string",
             "description": "昵称",
-            "default": "昵称"
+            "example": ""
           },
           "avator": {
             "type": "string",
-            "default": "头像"
+            "description": "头像",
+            "example": ""
           },
           "sex": {
             "type": "string",
-            "default": "UNKNOW"
+            "description": "性别",
+            "example": "UNKNOW"
           }
         },
         "required": [
           "username",
-          "password",
           "role",
-          "nick_name",
+          "nickName",
           "avator",
           "sex"
         ]
@@ -571,58 +605,6 @@
         "required": [
           "username",
           "password"
-        ]
-      },
-      "UserEntity": {
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string",
-            "description": "账号"
-          },
-          "password": {
-            "type": "string",
-            "description": "密码"
-          },
-          "role": {
-            "type": "string",
-            "description": "角色权限"
-          },
-          "nick_name": {
-            "type": "string",
-            "description": "昵称"
-          },
-          "avator": {
-            "type": "string",
-            "description": "头像"
-          },
-          "sex": {
-            "type": "string",
-            "description": "性别"
-          },
-          "create_at": {
-            "type": "string",
-            "description": "创建时间"
-          },
-          "update_at": {
-            "type": "string",
-            "description": "更新时间"
-          },
-          "delete_at": {
-            "type": "string",
-            "description": "删除时间"
-          }
-        },
-        "required": [
-          "username",
-          "password",
-          "role",
-          "nick_name",
-          "avator",
-          "sex",
-          "create_at",
-          "update_at",
-          "delete_at"
         ]
       }
     }
