@@ -17,13 +17,13 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "predev": "npx prisma generate",
+    "gen-migrate": "npx prisma generate",
     "migrate:dev": "npx prisma migrate dev",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
-    "@fastify/cookie": "^11.0.2",
-    "@fastify/multipart": "^9.0.2",
+    "@fastify/cookie": "^9.4.0",
+    "@fastify/multipart": "^8.3.0",
     "@fastify/static": "^7.0.0",
     "@liaoliaots/nestjs-redis": "^10.0.0",
     "@nestjs/axios": "^4.0.0",

@@ -2,13 +2,13 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-20 18:31:48
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 19:05:43
+ * @LastEditTime: 2025-01-23 20:39:59
  * @FilePath: /mock-api-serve/src/api-result/api-result.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
-import { ResultData } from 'src/helper/ResultData';
+import { ResponseModel } from '../model/response.model';
 
 const baseTypeNames = ['String', 'Number', 'Boolean'];
 
@@ -71,11 +71,11 @@ export const ApiResult = <TModel extends Type<any>>(props: ApiResultProps<TModel
         prop = { type: 'null', default: null };
     }
     return applyDecorators(
-        ApiExtraModels(...(model && !modalIsBaseType ? [ResultData, model] : [ResultData])),
+        ApiExtraModels(...(model && !modalIsBaseType ? [ResponseModel, model] : [ResponseModel])),
         ApiOkResponse({
             schema: {
                 allOf: [
-                    { $ref: getSchemaPath(ResultData) },
+                    { $ref: getSchemaPath(ResponseModel) },
                     {
                         properties: {
                             data: prop,

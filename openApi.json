@@ -36,7 +36,7 @@
             }
           },
           {
-            "name": "account",
+            "name": "username",
             "required": false,
             "in": "query",
             "description": "账号",
@@ -54,7 +54,7 @@
                 "schema": {
                   "allOf": [
                     {
-                      "$ref": "#/components/schemas/ResultData"
+                      "$ref": "#/components/schemas/ResponseModel"
                     },
                     {
                       "properties": {
@@ -106,7 +106,7 @@
                 "schema": {
                   "allOf": [
                     {
-                      "$ref": "#/components/schemas/ResultData"
+                      "$ref": "#/components/schemas/ResponseModel"
                     },
                     {
                       "properties": {
@@ -138,7 +138,7 @@
                 "schema": {
                   "allOf": [
                     {
-                      "$ref": "#/components/schemas/ResultData"
+                      "$ref": "#/components/schemas/ResponseModel"
                     },
                     {
                       "properties": {
@@ -170,7 +170,7 @@
                 "schema": {
                   "allOf": [
                     {
-                      "$ref": "#/components/schemas/ResultData"
+                      "$ref": "#/components/schemas/ResponseModel"
                     },
                     {
                       "properties": {
@@ -240,32 +240,31 @@
       }
     },
     "schemas": {
-      "ResultData": {
+      "ResponseModel": {
         "type": "object",
         "properties": {
+          "data": {
+            "type": "object"
+          },
           "code": {
             "type": "number",
             "default": 200
           },
-          "msg": {
+          "message": {
             "type": "string",
-            "default": "ok"
-          },
-          "success": {
-            "type": "boolean",
-            "default": true
+            "default": "success"
           }
         },
         "required": [
+          "data",
           "code",
-          "msg",
-          "success"
+          "message"
         ]
       },
       "UserInfoVO": {
         "type": "object",
         "properties": {
-          "account": {
+          "username": {
             "type": "string",
             "description": "账号"
           },
@@ -294,7 +293,7 @@
           }
         },
         "required": [
-          "account",
+          "username",
           "password",
           "role",
           "nick_name",

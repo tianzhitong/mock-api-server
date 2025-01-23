@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 19:13:36
+ * @LastEditTime: 2025-01-23 20:31:46
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -14,8 +14,8 @@ import { HttpStatus, UnprocessableEntityException, ValidationPipe } from '@nestj
 import { useContainer } from 'class-validator';
 import { setupSwagger } from './setup-swagger';
 import { LoggerService } from './share/logger/logger.service';
-import fastifyApp from './common/adapters/fastify.adapter';
 import { isDev } from './config';
+import fastifyApp from './common/adapters/fastify.adapter';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyApp, {
@@ -48,6 +48,7 @@ async function bootstrap() {
             },
         }),
     );
+
     // 更换日志系统
     app.useLogger(app.get(LoggerService));
 

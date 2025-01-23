@@ -30,7 +30,7 @@ model Mock {
 
 model User {
   id        Int    @id @default(autoincrement())
-  account   String    @unique @db.VarChar(255)
+  username   String    @unique @db.VarChar(255)
   password  String    @db.VarChar(255)
   role      Role      @default(USER)
   create_at DateTime  @default(now()) @db.Timestamp(6)

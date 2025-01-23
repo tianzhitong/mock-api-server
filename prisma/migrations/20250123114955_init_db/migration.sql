@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `mock` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `project_name` VARCHAR(255) NOT NULL DEFAULT 'default',
     `api_url` VARCHAR(255) NOT NULL,
     `api_method` CHAR(6) NOT NULL,
@@ -16,8 +16,8 @@ CREATE TABLE `mock` (
 
 -- CreateTable
 CREATE TABLE `user` (
-    `id` BIGINT NOT NULL AUTO_INCREMENT,
-    `account` VARCHAR(255) NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `role` ENUM('user', 'admin') NOT NULL DEFAULT 'user',
     `create_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -27,6 +27,6 @@ CREATE TABLE `user` (
     `avator` VARCHAR(191) NOT NULL DEFAULT 'http://www.baidu.com',
     `sex` ENUM('男', '女', '未知') NOT NULL DEFAULT '未知',
 
-    UNIQUE INDEX `user_account_key`(`account`),
+    UNIQUE INDEX `user_username_key`(`username`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
