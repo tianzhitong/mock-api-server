@@ -18,6 +18,7 @@ import { LoggerModule } from './share/logger/logger.module';
 import { ShareModule } from './share/share.module';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { ApiDataTransformInterceptor } from './common/interceptors/api-data-transform/api-data-transform.interceptor';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { ApiDataTransformInterceptor } from './common/interceptors/api-data-tran
         }),
         LoggerModule,
         ShareModule,
+        HealthModule,
     ],
     controllers: [],
     providers: [
