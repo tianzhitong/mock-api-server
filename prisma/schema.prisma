@@ -13,6 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model ReponseModel {
+  id         Int     @id @default(autoincrement())
+  name       String? @unique() @db.VarChar(255)
+  model_data String? @db.LongText()
+
+  @@map("response_model")
+}
+
 model Mock {
   id                           Int       @id @default(autoincrement())
   project_name                 String    @default("default") @db.VarChar(255)

@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-24 18:28:53
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 22:23:13
+ * @LastEditTime: 2025-01-25 01:24:18
  * @FilePath: /mock-api-serve/src/utils/mock.util.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -14,7 +14,7 @@ const isObject = (obj: any) => {
     return Object.prototype.toString.call(obj) === '[object Object]';
 };
 
-export const genMockApiData = (data: any) => {
+export const genMockApiData = (data: any, responseModel: object) => {
     const template = {};
     if (typeof data === 'object' && data !== null) {
         const keys = Reflect.ownKeys(data);
@@ -25,7 +25,10 @@ export const genMockApiData = (data: any) => {
     }
 
     // 使用 mock.mock 生成数据
-    const mockData = mock(template);
+    const mockData = mock({
+        ...template,
+        ...responseModel,
+    });
     return mockData;
 };
 

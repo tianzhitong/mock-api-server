@@ -67,6 +67,54 @@
         ]
       }
     },
+    "/mock/responseModel/addProjectModel": {
+      "post": {
+        "operationId": "ResponseModelController_addProjectModel",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResponseModelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ResponseModel"
+        ]
+      }
+    },
+    "/mock/responseModel/updateResponseModelDto": {
+      "post": {
+        "operationId": "ResponseModelController_updateResponseModelDto",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateResponseModelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ResponseModel"
+        ]
+      }
+    },
     "/mock/user/getUserList": {
       "get": {
         "operationId": "UserController_getUserList",
@@ -601,6 +649,40 @@
         },
         "required": [
           "list"
+        ]
+      },
+      "ResponseModelDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "项目名称"
+          },
+          "modelData": {
+            "type": "string",
+            "example": "模型数据"
+          }
+        },
+        "required": [
+          "name",
+          "modelData"
+        ]
+      },
+      "UpdateResponseModelDto": {
+        "type": "object",
+        "properties": {
+          "modelData": {
+            "type": "string",
+            "example": "模型数据"
+          },
+          "id": {
+            "type": "number",
+            "example": "主键"
+          }
+        },
+        "required": [
+          "modelData",
+          "id"
         ]
       },
       "ResponseModel": {

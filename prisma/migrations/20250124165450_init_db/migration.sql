@@ -1,11 +1,21 @@
 -- CreateTable
+CREATE TABLE `response_model` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NULL,
+    `model_data` LONGTEXT NULL,
+
+    UNIQUE INDEX `response_model_name_key`(`name`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `mock` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `project_name` VARCHAR(255) NOT NULL DEFAULT 'default',
     `api_url` VARCHAR(255) NOT NULL,
     `api_method` CHAR(6) NOT NULL,
     `query` VARCHAR(255) NULL,
-    `response_to_mock_struct_data` VARCHAR(255) NULL,
+    `response_to_mock_struct_data` LONGTEXT NULL,
     `create_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `update_at` DATETIME(3) NOT NULL,
     `delete_at` DATETIME(3) NULL,

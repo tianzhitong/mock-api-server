@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-20 20:15:15
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 19:04:19
+ * @LastEditTime: 2025-01-25 01:24:37
  * @FilePath: /mock-api-serve/src/modules/mock/mock.service.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -11,10 +11,14 @@ import { PrismaService } from '../prisma/prisma.service';
 import { ClientGetMockDataDtO, CreateMockDto } from './dto/create-mock.dto';
 import { BusinessException } from 'src/common/exceptions/business.exception';
 import { genMockApiData } from 'src/utils/mock.util';
+import { ResponseModelService } from '../response_model/response_model.service';
 
 @Injectable()
 export class MockService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly responseModelService: ResponseModelService,
+    ) {}
 
     async createMockApi(list: CreateMockDto[]) {
         const newInsertData = list.map((item) => {
@@ -63,6 +67,8 @@ export class MockService {
     }
 
     async clientGetMockData(clientGetMockDataDtO: ClientGetMockDataDtO) {
+        const findResponseModel = await this.responseModelService.findOneByName(clientGetMockDataDtO.projectName);
+        const responseModel = JSON.parse(findResponseModel?.model_data ?? '{}');
         const findMockApi = await this.prisma.mock.findFirst({
             where: {
                 project_name: clientGetMockDataDtO.projectName,
@@ -74,6 +80,6 @@ export class MockService {
         if (!findMockApi) {
             throw new BusinessException('该mock接口不存在');
         }
-        return genMockApiData(JSON.parse(findMockApi.response_to_mock_struct_data));
+        return genMockApiData(JSON.parse(findMockApi.response_to_mock_struct_data), responseModel);
     }
 }
