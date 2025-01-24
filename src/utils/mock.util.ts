@@ -2,13 +2,13 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-24 18:28:53
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 20:26:19
+ * @LastEditTime: 2025-01-24 22:23:13
  * @FilePath: /mock-api-serve/src/utils/mock.util.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { mock } from 'mockjs';
 
-const baseTypeList = ['boolean', 'number', 'string'];
+const baseTypeList = ['boolean', 'number', 'string', 'integer'];
 
 const isObject = (obj: any) => {
     return Object.prototype.toString.call(obj) === '[object Object]';
@@ -33,6 +33,9 @@ const generateMockData = (data: any, parentKey: string | symbol) => {
     if (baseTypeList.includes(data[parentKey])) {
         if (data[parentKey] === 'string') {
             return '@ctitle(10,30)'; // 默认字符串模板
+        }
+        if (data[parentKey] === 'integer') {
+            return '@integer(1, 100)';
         }
         if (data[parentKey] === 'number') {
             return '@integer(1, 100)'; // 默认数字模板
