@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 02:38:13
+ * @LastEditTime: 2025-01-24 12:52:27
  * @FilePath: /mock-api-serve/src/user/user.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -21,32 +21,20 @@ import { UserService } from './user.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDTO } from './dto/login-user.dto';
-import { Response } from 'express';
 import { ApiResult } from 'src/common/decorators/api-result.decorator';
 import { captcha } from 'src/utils/captcha.util';
 import transReponseListData from 'src/utils/trans-reponse-list-data.util';
-import { bcrypt } from 'src/utils/bcrypt.util';
-import { JwtService } from '@nestjs/jwt';
-import { InjectRedis } from 'src/common/decorators/inject-redis.decorator';
-import Redis from 'ioredis';
-import { genAuthTokenKey } from 'src/helper/genRedisKey';
-import { ConfigService } from '@nestjs/config';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from '@prisma/client';
-import { FastifyRequest } from 'fastify';
-import { UserEntity, UserQueryDto } from './dto/user.dto';
-import { BusinessException } from 'src/common/exceptions/business.exception';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { UserQueryDto } from './dto/user.dto';
+import { UserEntity } from './user.entity';
 
 @ApiTags('User')
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
-    constructor(
-        @InjectRedis() private readonly redis: Redis,
-        private readonly userService: UserService,
-        private jwtService: JwtService,
-        private readonly configService: ConfigService,
-    ) {}
+    constructor(private readonly userService: UserService) {}
 
     @Get('getUserList')
     @ApiResult({
@@ -72,36 +60,14 @@ export class UserController {
     @Post('login')
     @ApiResult({ model: String })
     async login(@Body() loginUserDTO: LoginUserDTO) {
-        // 【1】查看账号是否存在
-        const userExist = await this.userService.findUserInfoByAccount(loginUserDTO.username);
-        if (!userExist) {
-            throw new BusinessException('暂未找到该用户');
-        }
-
-        // 【2】比对密码是否相同
-        const passwordEq = await bcrypt.comparePassword(loginUserDTO.password, userExist.password);
-        if (!passwordEq) {
-            throw new BusinessException('账号或者密码不正确');
-        }
-
-        // 【3】删除密码信息
-        Reflect.deleteProperty(userExist, 'password');
-
-        // 【4】生成token 存储在redis里。做持久化存储和踢人功能
-        const token = await this.jwtService.signAsync(userExist);
-        this.redis.set(
-            genAuthTokenKey(userExist.id),
-            JSON.stringify(userExist),
-            'EX',
-            this.configService.get('jwt.jwtExprire'),
-        );
-        return token;
+        return this.userService.login(loginUserDTO);
     }
 
     @Get('findUserInfo')
     @Roles(Role.USER, Role.ADMIN)
     @ApiResult({ model: UserEntity })
-    async findUserInfo(@Req() req: FastifyRequest) {
+    async findCurrentUserInfo(@Req() req: FastifyRequest) {
+        // 根据上下文Context用户信息id再次查询信息
         const userInfo = await this.userService.findUserInfoById(+req.user.id);
         return new UserEntity(userInfo);
     }
@@ -119,8 +85,8 @@ export class UserController {
             },
         },
     })
-    async getCaptcha(@Res() res: Response) {
-        // 生成验证码svg数据
+    async getCaptcha(@Res() res: FastifyReply) {
+        // 生成验证码svg数据,然后发送到客户端
         const genSvgData = captcha();
         res.type('image/svg+xml');
         res.send(genSvgData.data);

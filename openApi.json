@@ -11,7 +11,7 @@
             "in": "query",
             "description": "一页多少条",
             "schema": {
-              "example": 1,
+              "example": 10,
               "type": "number"
             }
           },
@@ -21,7 +21,7 @@
             "in": "query",
             "description": "第几页",
             "schema": {
-              "example": 20,
+              "example": 1,
               "type": "number"
             }
           },
@@ -200,7 +200,7 @@
     },
     "/mock/user/findUserInfo": {
       "get": {
-        "operationId": "UserController_findUserInfo",
+        "operationId": "UserController_findCurrentUserInfo",
         "parameters": [],
         "responses": {
           "200": {
@@ -516,35 +516,51 @@
         "properties": {
           "username": {
             "type": "string",
-            "example": "账号"
+            "description": "账号"
+          },
+          "password": {
+            "type": "string",
+            "description": "密码"
           },
           "role": {
             "type": "string",
-            "description": "角色权限",
-            "example": "USER"
+            "description": "角色权限"
           },
-          "nickName": {
+          "nick_name": {
             "type": "string",
-            "description": "昵称",
-            "example": ""
+            "description": "昵称"
           },
           "avator": {
             "type": "string",
-            "description": "头像",
-            "example": ""
+            "description": "头像"
           },
           "sex": {
             "type": "string",
-            "description": "性别",
-            "example": "UNKNOW"
+            "description": "性别"
+          },
+          "create_at": {
+            "type": "string",
+            "description": "创建时间"
+          },
+          "update_at": {
+            "type": "string",
+            "description": "更新时间"
+          },
+          "delete_at": {
+            "type": "string",
+            "description": "删除时间"
           }
         },
         "required": [
           "username",
+          "password",
           "role",
-          "nickName",
+          "nick_name",
           "avator",
-          "sex"
+          "sex",
+          "create_at",
+          "update_at",
+          "delete_at"
         ]
       },
       "CreateUserDto": {

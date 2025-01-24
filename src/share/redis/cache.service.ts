@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-23 01:06:38
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 01:24:57
+ * @LastEditTime: 2025-01-24 12:53:43
  * @FilePath: /mock-api-serve/src/share/redis/cache.service.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -27,9 +27,7 @@ export class CacheService {
     }
 
     private get redisClient(): Redis {
-        // eslint-disable-next-line ts/ban-ts-comment
-        // @ts-expect-error
-        return this.cache.store.client;
+        return (this.cache as any).store.client;
     }
 
     public get<T>(key: TCacheKey): TCacheResult<T> {
