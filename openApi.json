@@ -1,6 +1,30 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/mock/mock/createMockApi": {
+      "post": {
+        "operationId": "MockController_createMockApi",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMockListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      }
+    },
     "/mock/user/getUserList": {
       "get": {
         "operationId": "UserController_getUserList",
@@ -490,6 +514,53 @@
       }
     },
     "schemas": {
+      "CreateMockDto": {
+        "type": "object",
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "description": "项目名字"
+          },
+          "apiUrl": {
+            "type": "string",
+            "description": "接口url"
+          },
+          "apiMethod": {
+            "type": "string",
+            "description": "接口方法"
+          },
+          "query": {
+            "type": "string",
+            "description": "接口的查询参数"
+          },
+          "responseToTockStructData": {
+            "type": "string",
+            "description": "根据swagger获取到的mock信息"
+          }
+        },
+        "required": [
+          "projectName",
+          "apiUrl",
+          "apiMethod",
+          "query",
+          "responseToTockStructData"
+        ]
+      },
+      "CreateMockListDto": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "description": "列表数据",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateMockDto"
+            }
+          }
+        },
+        "required": [
+          "list"
+        ]
+      },
       "ResponseModel": {
         "type": "object",
         "properties": {
@@ -616,11 +687,17 @@
             "type": "string",
             "description": "密码",
             "default": "密码"
+          },
+          "captcha": {
+            "type": "string",
+            "description": "验证码",
+            "default": "验证码"
           }
         },
         "required": [
           "username",
-          "password"
+          "password",
+          "captcha"
         ]
       }
     }

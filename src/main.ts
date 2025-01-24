@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 23:51:26
+ * @LastEditTime: 2025-01-24 15:09:49
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -10,7 +10,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
-import { HttpStatus, UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, HttpStatus, ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'class-validator';
 import { setupSwagger } from './setup-swagger';
 import { LoggerService } from './share/logger/logger.service';
@@ -38,11 +38,14 @@ async function bootstrap() {
             errorHttpStatusCode: HttpStatus.BAD_REQUEST,
             stopAtFirstError: true,
             exceptionFactory(errors) {
-                return new UnprocessableEntityException(
+                return new BadRequestException(
                     errors.map((e) => {
-                        const rule = Object.keys(e.constraints!)[0];
-                        const msg = e.constraints![rule];
-                        return msg;
+                        if (e.constraints && Object.keys(e.constraints).length > 0) {
+                            const rule = Object.keys(e.constraints!)[0];
+                            const msg = e.constraints![rule];
+                            return msg;
+                        }
+                        return '参数异常，无法转换数据';
                     })[0],
                 );
             },

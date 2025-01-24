@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 13:16:17
+ * @LastEditTime: 2025-01-24 13:32:46
  * @FilePath: /mock-api-serve/src/user/user.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -29,6 +29,7 @@ import { Role } from '@prisma/client';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserQueryDto } from './dto/user.dto';
 import { UserEntity } from './user.entity';
+import { BusinessException } from 'src/common/exceptions/business.exception';
 
 @ApiTags('User')
 @Controller('user')
@@ -37,6 +38,7 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get('getUserList')
+    @Roles(Role.ADMIN, Role.USER)
     @ApiResult({
         model: UserEntity,
         isArray: true,
@@ -59,7 +61,10 @@ export class UserController {
 
     @Post('login')
     @ApiResult({ model: String })
-    async login(@Body() loginUserDTO: LoginUserDTO) {
+    async login(@Body() loginUserDTO: LoginUserDTO, @Req() req: FastifyRequest) {
+        if ((req.cookies?.captcha ?? '').toLowerCase() !== loginUserDTO.captcha.toLowerCase()) {
+            throw new BusinessException('验证码不正确或已过期');
+        }
         return this.userService.login(loginUserDTO);
     }
 
@@ -87,6 +92,11 @@ export class UserController {
     async getCaptcha(@Res() res: FastifyReply) {
         // 生成验证码svg数据,然后发送到客户端
         const genSvgData = captcha();
+        res.cookie('captcha', genSvgData.text, {
+            path: '/',
+            httpOnly: true,
+            maxAge: 60 * 1000,
+        });
         res.type('image/svg+xml');
         res.send(genSvgData.data);
     }
