@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 12:52:27
+ * @LastEditTime: 2025-01-24 13:16:17
  * @FilePath: /mock-api-serve/src/user/user.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -67,8 +67,7 @@ export class UserController {
     @Roles(Role.USER, Role.ADMIN)
     @ApiResult({ model: UserEntity })
     async findCurrentUserInfo(@Req() req: FastifyRequest) {
-        // 根据上下文Context用户信息id再次查询信息
-        const userInfo = await this.userService.findUserInfoById(+req.user.id);
+        const userInfo = await this.userService.findUserInfoById(req.user.id);
         return new UserEntity(userInfo);
     }
 
