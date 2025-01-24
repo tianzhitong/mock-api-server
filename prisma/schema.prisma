@@ -14,12 +14,12 @@ datasource db {
 }
 
 model Mock {
-  id                           Int    @id @default(autoincrement())
+  id                           Int       @id @default(autoincrement())
   project_name                 String    @default("default") @db.VarChar(255)
   api_url                      String    @db.VarChar(255)
   api_method                   String    @db.Char(6)
   query                        String?   @db.VarChar(255)
-  response_to_mock_struct_data Json      @db.Json()
+  response_to_mock_struct_data String?   @db.LongText()
   create_at                    DateTime  @default(now()) @db.Timestamp(6)
   update_at                    DateTime  @updatedAt
   delete_at                    DateTime?
@@ -29,8 +29,8 @@ model Mock {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  username   String    @unique @db.VarChar(255)
+  id        Int       @id @default(autoincrement())
+  username  String    @unique @db.VarChar(255)
   password  String    @db.VarChar(255)
   role      Role      @default(USER)
   create_at DateTime  @default(now()) @db.Timestamp(6)

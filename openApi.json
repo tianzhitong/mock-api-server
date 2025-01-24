@@ -25,6 +25,48 @@
         ]
       }
     },
+    "/mock/mock/clientGetMockData": {
+      "get": {
+        "operationId": "MockController_clientGetMockData",
+        "parameters": [
+          {
+            "name": "projectName",
+            "required": true,
+            "in": "query",
+            "description": "项目名字",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiUrl",
+            "required": true,
+            "in": "query",
+            "description": "接口url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiMethod",
+            "required": true,
+            "in": "query",
+            "description": "接口方法",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      }
+    },
     "/mock/user/getUserList": {
       "get": {
         "operationId": "UserController_getUserList",

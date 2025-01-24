@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-20 19:53:54
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 14:21:02
+ * @LastEditTime: 2025-01-24 17:55:45
  * @FilePath: /mock-api-serve/src/mock/dto/create-mock.dto.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -45,4 +45,22 @@ export class CreateMockListDto {
     @ValidateNested({ each: true })
     @Type(() => CreateMockDto)
     list: CreateMockDto[];
+}
+
+export class ClientGetMockDataDtO {
+    @ApiProperty({ required: true, type: String, description: '项目名字' })
+    @IsString()
+    @IsOptional()
+    projectName: string;
+
+    @ApiProperty({ required: true, type: String, description: '接口url' })
+    @IsString()
+    @IsNotEmpty({
+        message: 'apiUrl不能为空',
+    })
+    apiUrl: string;
+
+    @ApiProperty({ required: true, type: String, description: '接口方法' })
+    @IsString()
+    apiMethod: string;
 }
