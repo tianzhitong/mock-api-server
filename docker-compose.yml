@@ -1,0 +1,46 @@
+version: '3'
+services:
+  # NestJS 应用
+  app:
+    build: .
+    container_name: nestjs_app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - nestjs-network
+  # MySQL 服务
+  mysql:
+    image: mysql:latest
+    container_name: nestjs_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: mock-api-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - nestjs-network
+  # Redis 服务
+  redis:
+    image: redis:6
+    container_name: nestjs_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - nestjs-network
+# 定义网络
+networks:
+  nestjs-network:
+    driver: bridge
+# 定义卷
+volumes:
+  mysql-data:
+  redis-data:
