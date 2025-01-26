@@ -25,4 +25,4 @@ RUN pnpm build
 EXPOSE 3000
  
 # 启动你的应用
-CMD ["pnpm","start:prod"]
+CMD pnpm gen-migrate && pnpm start:prod
