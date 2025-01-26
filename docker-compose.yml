@@ -4,6 +4,7 @@ services:
   app:
     build: .
     container_name: nestjs_app
+    restart: always
     ports:
       - "3000:3000"
     environment:
@@ -17,6 +18,7 @@ services:
   mysql:
     image: mysql:latest
     container_name: nestjs_mysql
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: mock-api-db
@@ -30,6 +32,7 @@ services:
   redis:
     image: redis:6
     container_name: nestjs_redis
+    restart: always
     ports:
       - "6379:6379"
     volumes:
@@ -39,7 +42,7 @@ services:
 # 定义网络
 networks:
   nestjs-network:
-    driver: bridge
+    name: nestjs-network
 # 定义卷
 volumes:
   mysql-data:

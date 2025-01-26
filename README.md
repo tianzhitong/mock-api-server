@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-26 22:18:48
+ * @LastEditTime: 2025-01-26 23:00:07
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -13,6 +13,8 @@ docker build .
 # 运行镜像
 docker run -d -p 3000:3000 --name my-nest-mock-server2 mock-api-server:v5
 
+# 指定网络
+docker run -d --name mock-api-server-test --network mock-api-serve_nestjs-network mock-api-server:test
 # 启动docker-compose
 docker-compose up -d
 
@@ -20,7 +22,7 @@ docker-compose up -d
 docker rm -f $(docker ps -aq)
 
 # 进入容器内
-docker exec -it 3cbdd3a40b64 /bin/bash
+docker exec -it fac8e72b7e6b /bin/bash
 docker exec -it 3cbdd3a40b64 bash
 
 
