@@ -21,8 +21,8 @@ COPY . .
 RUN npx prisma generate
 # 构建项目
 RUN pnpm build
+
 # 暴露端口（如果你的应用运行在特定端口）
 EXPOSE 3000
- 
-# 启动你的应用
-CMD pnpm gen-migrate && pnpm start:prod
+
+ENTRYPOINT pnpm migrate:deploy && pnpm start:prod

@@ -19,7 +19,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "gen-migrate": "npx prisma generate",
     "migrate:dev": "npx prisma migrate dev",
-    "migrate:deploy": "npx migrate deploy",
+    "migrate:deploy": "npx prisma migrate deploy",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
