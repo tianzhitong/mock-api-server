@@ -2,12 +2,16 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-27 00:45:13
+ * @LastEditTime: 2025-01-27 02:55:26
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 5af5f7a5d58f
+docker inspect 5af5f7a5d58f | grep Network
+
+
 # 上传文件到服务器
-docker exec -it ff034ba1257a /bin/bash
+docker exec -it b9b6a2b976ab /bin/bash
 
 scp -r ./docker-mock-api root@116.196.91.95:/mock-app-server
 # docker 构建镜像

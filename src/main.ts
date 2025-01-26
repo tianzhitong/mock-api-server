@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 15:09:49
+ * @LastEditTime: 2025-01-27 02:59:05
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -71,7 +71,9 @@ async function bootstrap() {
     // 根据环境判断是否启用swagger文档
     setupSwagger(app, envConfig);
 
-    await app.listen(port);
+    await app.listen(port, '0.0.0.0', (err, address) => {
+        console.log(`服务启动成功，端口号：${address}${port}`);
+    });
 }
 
 bootstrap();
