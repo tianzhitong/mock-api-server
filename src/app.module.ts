@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 23:00:30
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-25 00:37:13
+ * @LastEditTime: 2025-01-26 22:13:13
  * @FilePath: /mock-api-serve/src/app.module.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -23,6 +23,7 @@ import { JWTGuard } from './common/guards/jwt.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { AllExceptionFilter } from './common/filters/all-exception.filter';
 import { ResponseModelModule } from './modules/response_model/response_model.module';
+import { AppController } from './app.controller';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -48,7 +49,7 @@ import { ResponseModelModule } from './modules/response_model/response_model.mod
         HealthModule,
         ResponseModelModule,
     ],
-    controllers: [],
+    controllers: [AppController],
     providers: [
         {
             provide: APP_FILTER,

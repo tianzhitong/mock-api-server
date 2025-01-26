@@ -18,7 +18,7 @@ RUN pnpm install
 COPY . .
 
 # 生成 prisma 客户端
-RUN pnpm prisma generate
+RUN npx prisma generate
 # 构建项目
 RUN pnpm build
 # 暴露端口（如果你的应用运行在特定端口）

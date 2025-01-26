@@ -1,6 +1,20 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/mock/app/hello": {
+      "get": {
+        "operationId": "AppController_checkNetwork",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
     "/mock/mock/createMockApi": {
       "post": {
         "operationId": "MockController_createMockApi",
