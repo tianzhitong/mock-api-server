@@ -17,6 +17,8 @@ RUN pnpm install
 # 复制项目文件到容器内
 COPY . .
 
+# 修改env环境变量
+RUN node yaml_to_env.js
 # 生成 prisma 客户端
 RUN npx prisma generate
 # 构建项目
