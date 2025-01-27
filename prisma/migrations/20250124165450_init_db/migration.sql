@@ -40,3 +40,5 @@ CREATE TABLE `user` (
     UNIQUE INDEX `user_username_key`(`username`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+INSERT INTO `user` VALUES (1,'admin','$2b$10$7mFVljVwWuBYKqpD3eBxd.HGi.0GfOzIfRPD89aHxGDvSAdvav.Ni','admin','2025-01-27 08:26:40.750000','2025-01-27 08:26:40.750',NULL,'管理员','http://www.baidu.com','未知');
