@@ -81,33 +81,9 @@
         ]
       }
     },
-    "/mock/responseModel/addProjectModel": {
+    "/mock/responseModel/editResponseModel": {
       "post": {
-        "operationId": "ResponseModelController_addProjectModel",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResponseModelDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "ResponseModel"
-        ]
-      }
-    },
-    "/mock/responseModel/updateResponseModelDto": {
-      "post": {
-        "operationId": "ResponseModelController_updateResponseModelDto",
+        "operationId": "ResponseModelController_editResponseModelDto",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -663,23 +639,6 @@
         },
         "required": [
           "list"
-        ]
-      },
-      "ResponseModelDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "项目名称"
-          },
-          "modelData": {
-            "type": "string",
-            "example": "模型数据"
-          }
-        },
-        "required": [
-          "name",
-          "modelData"
         ]
       },
       "UpdateResponseModelDto": {
