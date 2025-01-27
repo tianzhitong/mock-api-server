@@ -1,5 +1,6 @@
 # 开发环境配置
 app:
+  host: 'localhost'
   # 全局接口前缀
   globalApiPrefix: mock
   # 后端服务端口
@@ -17,10 +18,10 @@ swagger:
   enabled: true
   path: api-doc
 redis:
-  host: redis
+  host: localhost
   port: 6379
   password: ''
   db: 0
 db:
   mysql:
-    DATABASE_URL: "mysql://root:123456@mysql:3306/mock-api-db?schema=public"
+    DATABASE_URL: "mysql://root:123456@localhost:3306/mock-api-db?schema=public"

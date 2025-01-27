@@ -1,5 +1,6 @@
 # 生产环境配置
 app:
+  host: '0.0.0.0'
   # 全局接口前缀
   globalApiPrefix: mock
   # 后端服务端口
