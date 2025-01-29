@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-27 15:27:14
+ * @LastEditTime: 2025-01-28 03:26:51
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -12,7 +12,7 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 5af
 docker inspect 5af5f7a5d58f | grep Network
 
 # 进入容器  
-docker exec -it cd1659dce665 /bin/bash
+docker exec -it 4e5dc334ac5d /bin/bash
 
 # 上传文件到服务器
 scp -r ./mock-api-serve root@116.196.91.95:/mock-app-server
@@ -31,6 +31,9 @@ docker run -d --name mock-api-server-test --network nestjs-network mock-api-serv
 
 # 启动docker-compose
 docker-compose up -d
+
+# 删除所有volume
+docker volume ls -q | xargs -r docker volume rm
 
 # 删除全部容器
 docker rm -f $(docker ps -aq)

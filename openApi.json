@@ -90,7 +90,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateResponseModelDto"
+                "$ref": "#/components/schemas/ResponseModelDto"
               }
             }
           }
@@ -641,21 +641,21 @@
           "list"
         ]
       },
-      "UpdateResponseModelDto": {
+      "ResponseModelDto": {
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string",
+            "example": "项目名称"
+          },
           "modelData": {
             "type": "string",
             "example": "模型数据"
-          },
-          "id": {
-            "type": "number",
-            "example": "主键"
           }
         },
         "required": [
-          "modelData",
-          "id"
+          "name",
+          "modelData"
         ]
       },
       "ResponseModel": {
