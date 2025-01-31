@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-29 19:23:33
+ * @LastEditTime: 2025-02-01 02:38:34
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -33,11 +33,16 @@ sudo yum remove docker \
                   docker-latest-logrotate \
                   docker-logrotate \
                   docker-engine
+
+# 删除现有的 Docker 仓库配置：
+sudo rm /etc/yum.repos.d/docker-ce.repo
+
 # 安装依赖工具
 sudo yum install -y yum-utils
 
 # 设置docker仓库
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
 # 安装docker
 sudo yum install docker-ce docker-ce-cli containerd.io
