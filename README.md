@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-09 15:24:52
+ * @LastEditTime: 2025-02-09 17:20:58
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -104,3 +104,10 @@ docker rm -f $(docker ps -aq)
 
 # 删除所有镜像
 docker rmi -f $(docker images -aq)
+
+
+# 打包镜像
+docker build . -t=mock-app-server
+
+# 打tag 本地镜像 -> 远程仓库镜像
+docker tag mock-app-server:latest tianzhitong/mock-app-server:latest
