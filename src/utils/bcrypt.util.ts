@@ -2,12 +2,12 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-23 20:47:42
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 20:53:23
+ * @LastEditTime: 2025-02-09 16:43:04
  * @FilePath: /mock-api-serve/src/utils/bcrypt.util.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 
-import * as bcryptThirdTool from 'bcrypt';
+import * as bcryptThirdTool from 'bcryptjs';
 
 /** 将密码生成为加盐的密码 */
 export const hashPassword = async (password: string): Promise<string> => {
