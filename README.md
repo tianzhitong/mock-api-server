@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-09 22:04:48
+ * @LastEditTime: 2025-02-10 01:10:22
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -116,8 +116,20 @@ docker tag mock-app-server:latest tianzhitong/mock-app-server:latest
 docker inspect 【镜像id】 --format '{{.Architecture}}'
 
 # 构建并推送多架构镜像：
-docker buildx build --platform linux/amd64,linux/arm64 -t mock-app-server:1.0.1 --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t tianzhitong/mock-app-server:1.0.2 --push .
 docker buildx build --platform linux/amd64,linux/arm64 -t tianzhitong/mock-app-server:1.0.1 --output type=image .
+
+docker buildx build \
+  --platform linux/amd64 \
+  --cache-from=type=local,src=/Users/tianzhitong/Desktop/mock-api/mock-api-serve/cache \
+  --cache-to=type=local,dest=/Users/tianzhitong/Desktop/mock-api/mock-api-serve/cache \
+  -t tianzhitong/mock-app-server:1.0.2 --push .
+
+
+# 保存镜像到本地
+docker save -o my-image.tar mock-app-build:latest
+
+  
 # 解决跨平台架构问题 1-启用qemu 2-构建多架构
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
@@ -125,3 +137,18 @@ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 docker compose pull <service_name>
 # 重启服务
 docker compose up -d --no-deps <service_name>
+
+
+# 创建 Buildx 构建器
+docker buildx create --name mybuilder --use
+
+# 激活 Buildx
+docker buildx use mybuilder
+
+# 查看构建器状态
+docker buildx inspect
+
+# shell脚本更新服务
+touch restart_service.sh
+chmod +x restart_service.sh
+./restart_service.sh

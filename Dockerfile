@@ -1,11 +1,14 @@
 # 使用 Node.js 官方镜像作为基础镜像
-FROM node:20-slim AS builder
+FROM node:20-alpine AS builder
  
 # 设置工作目录
 WORKDIR /app
  
 # 复制 package.json 和 package-lock.json
 COPY package.json pnpm-lock.yaml ./
+
+# 更新包列表并安装 OpenSSL。解决prisma报错问题
+# RUN apt-get update -y && apt-get install -y openssl
 
 # 更换为淘宝镜像，合并命令减少层数，设置镜像并安装 PNPM
 RUN npm config set registry https://registry.npmmirror.com && \
@@ -21,7 +24,7 @@ RUN node yaml_to_env.mjs && \
     pnpm build
 
 # production stage
-FROM node:20-slim AS production-stage
+FROM node:20-alpine AS production-stage
 
 # 设置工作目录
 WORKDIR /mock-app
@@ -47,4 +50,5 @@ RUN npx prisma generate
 # 暴露端口（如果你的应用运行在特定端口）
 EXPOSE 3000
 
-CMD ["sh", "-c", "pnpm migrate:deploy && pnpm start:prod"]
+# CMD ["sh", "-c", "pnpm migrate:deploy && pnpm start:prod"]
+ENTRYPOINT pnpm migrate:deploy && pnpm start:prod
