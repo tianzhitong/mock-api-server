@@ -1,5 +1,5 @@
 # 使用 Node.js 官方镜像作为基础镜像
-FROM node:23.6.1-alpine3.20 AS builder
+FROM node:20-slim AS builder
  
 # 设置工作目录
 WORKDIR /app
@@ -21,7 +21,7 @@ RUN node yaml_to_env.mjs && \
     pnpm build
 
 # production stage
-FROM node:23.6.1-alpine3.20 AS production-stage
+FROM node:20-slim AS production-stage
 
 # 设置工作目录
 WORKDIR /mock-app

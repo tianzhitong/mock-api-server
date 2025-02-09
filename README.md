@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-09 17:20:58
+ * @LastEditTime: 2025-02-09 22:04:48
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -79,7 +79,7 @@ docker inspect 5af5f7a5d58f | grep Network
 docker exec -it 00fea99ea580 /bin/sh
 
 # 上传文件到服务器
-scp -r ./mock-api-serve root@116.196.91.95:/mock-app-server
+scp -r ./docker-compose.yml root@116.196.91.95:/app
 
 # docker 构建镜像
 docker build -t mock-api-server:test .
@@ -111,3 +111,17 @@ docker build . -t=mock-app-server
 
 # 打tag 本地镜像 -> 远程仓库镜像
 docker tag mock-app-server:latest tianzhitong/mock-app-server:latest
+
+# 查看镜像架构
+docker inspect 【镜像id】 --format '{{.Architecture}}'
+
+# 构建并推送多架构镜像：
+docker buildx build --platform linux/amd64,linux/arm64 -t mock-app-server:1.0.1 --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t tianzhitong/mock-app-server:1.0.1 --output type=image .
+# 解决跨平台架构问题 1-启用qemu 2-构建多架构
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+# 拉取指定服务
+docker compose pull <service_name>
+# 重启服务
+docker compose up -d --no-deps <service_name>
