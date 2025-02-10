@@ -3,7 +3,7 @@ services:
   # NestJS 应用
   app:
     # build: .
-    image: tianzhitong/mock-app-server:1.0.0
+    image: tianzhitong/mock-app-server:latest
     container_name: nestjs_app
     restart: always
     ports:
