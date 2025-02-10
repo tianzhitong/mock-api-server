@@ -51,7 +51,7 @@ services:
   # NestJS 应用
   app:
     # build: .
-    image: tianzhitong/mock-app-server:1.0.5
+    image: tianzhitong/mock-app-server:latest
     restart: always
     ports:
       - "3000:3000"
