@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-10 15:33:19
+ * @LastEditTime: 2025-02-11 01:41:28
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -112,6 +112,7 @@ docker build . -t=mock-app-server
 
 # 打tag 本地镜像 -> 远程仓库镜像
 docker tag mock-app-server:latest tianzhitong/mock-app-server:latest
+docker push tianzhitong/mock-app-server:latest
 
 # 查看镜像架构
 docker inspect 【镜像id】 --format '{{.Architecture}}'
@@ -153,3 +154,37 @@ docker buildx inspect
 touch restart_service.sh
 chmod +x restart_service.sh
 ./restart_service.sh
+
+
+
+# -----------------------swarm使用--------------------------
+# 初始化 Docker Swarm 集群
+docker swarm init
+
+# 使用 docker stack deploy 部署服务
+docker stack deploy -c docker-compose.swarm.yml mock-server-stack
+
+# 查看部署状态
+docker stack services mock-server-stack
+docker stack rm mock-server-stack
+docker service ps mock-server-stack_app
+
+# 更新服务
+docker stack deploy -c docker-compose.swarm.yml mock-server-stack
+
+# 扩展服务
+docker service scale mock-server-stack_app=3
+
+# 回滚更新
+docker service rollback mock-server-stack_app
+
+# 删除堆栈
+docker stack rm mock-server-stack
+
+# 更新单个服务
+docker service update \
+  --image tianzhitong/mock-app-server:1.0.5 \
+  mock-server-stack_app
+
+# 监控更新状态
+docker service ps mock-server-stack_app

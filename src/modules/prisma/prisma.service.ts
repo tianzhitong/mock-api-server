@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 23:01:40
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-21 02:48:42
+ * @LastEditTime: 2025-02-11 01:18:51
  * @FilePath: /mock-api-serve/src/prisma/prisma.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -25,7 +25,17 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     }
 
     async onModuleInit() {
-        await this.$connect();
+        let retries = 5;
+        while (retries > 0) {
+            try {
+                await this.$connect();
+                break;
+            } catch (err) {
+                console.log('err', err);
+                retries--;
+                await new Promise((res) => setTimeout(res, 5000)); // 等待 5 秒后重试
+            }
+        }
     }
 
     async onModuleDestroy() {

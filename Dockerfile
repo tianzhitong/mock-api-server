@@ -35,7 +35,7 @@ COPY --from=builder /app/prisma /mock-app/prisma
 COPY --from=builder /app/package.json /mock-app/package.json
 COPY --from=builder /app/pnpm-lock.yaml /mock-app/pnpm-lock.yaml
 COPY --from=builder /app/.env /mock-app/.
-COPY --from=builder /app/ecosystem.config.js /mock-app/ecosystem.config.js
+# COPY --from=builder /app/ecosystem.config.js /mock-app/ecosystem.config.js
 # COPY --from=builder /app/node_modules/@prisma/.client /mock-app/node_modules/@prisma/.prisma
 
 
@@ -44,7 +44,7 @@ RUN npm config set registry https://registry.npmmirror.com
 # 安装 pnpm
 RUN npm install -g pnpm
 # 安装 pm2
-RUN npm install -g pm2
+# RUN npm install -g pm2
 # 安装项目依赖
 RUN pnpm install --production
 # 生成 prisma 客户端
@@ -54,5 +54,6 @@ RUN npx prisma generate
 EXPOSE 3000
 
 # CMD ["sh", "-c", "pnpm migrate:deploy && pnpm start:prod"]
-ENTRYPOINT sh -c "pnpm migrate:deploy & pm2-runtime start ecosystem.config.js"
+# ENTRYPOINT sh -c "pnpm migrate:deploy & pm2-runtime start ecosystem.config.js"
+ENTRYPOINT pnpm migrate:deploy && pnpm start:prod
 

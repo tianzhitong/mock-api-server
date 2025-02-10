@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  # MySQL 服务
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: 3306
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: mock-api-db
+      MYSQL_USERNAME: laotianwy
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - nestjs-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+  # Redis 服务
+  redis:
+    image: redis:6
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - nestjs-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+  # NestJS 应用
+  app:
+    # build: .
+    image: tianzhitong/mock-app-server:1.0.5
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - nestjs-network
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+        max_attempts: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+# 定义网络
+networks:
+  nestjs-network:
+    driver: overlay
+# 定义卷
+volumes:
+  mysql-data:
+  redis-data:
