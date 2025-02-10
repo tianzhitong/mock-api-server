@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-10 14:22:12
+ * @LastEditTime: 2025-02-10 15:33:19
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -79,7 +79,8 @@ docker inspect 5af5f7a5d58f | grep Network
 docker exec -it 00fea99ea580 /bin/sh
 
 # 上传文件到服务器
-scp -r ./docker-compose.yml root@116.196.91.95:/app
+scp -r ./docker-compose.yml root@116.196.91.95:/mock-app-server
+scp -r ./restart_service.sh root@116.196.91.95:/mock-app-server
 
 # docker 构建镜像
 docker build -t mock-api-server:test .
