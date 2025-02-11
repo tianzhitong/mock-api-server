@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-23 00:57:36
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-10 18:12:41
+ * @LastEditTime: 2025-02-11 19:39:59
  * @FilePath: /mock-api-serve/src/share/share.module.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -19,7 +19,7 @@ import { RedisModule } from './redis/redis.module';
         LoggerModule.forRoot(),
         ThrottlerModule.forRoot([
             {
-                limit: 60,
+                limit: 120,
                 ttl: 60000,
             },
         ]),
