@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-11 02:36:10
+ * @LastEditTime: 2025-02-11 19:37:52
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -106,6 +106,9 @@ docker rm -f $(docker ps -aq)
 # 删除所有镜像
 docker rmi -f $(docker images -aq)
 
+# 删除未使用的镜像
+docker image prune
+
 
 # 打包镜像
 docker build . -t=mock-app-server
@@ -130,6 +133,7 @@ docker buildx build \
 
 # 保存镜像到本地
 docker save -o my-image.tar mock-app-build:latest
+docker load -i /path/to/my_image.tar
 
   
 # 解决跨平台架构问题 1-启用qemu 2-构建多架构
@@ -162,29 +166,29 @@ chmod +x restart_service.sh
 docker swarm init
 
 # 使用 docker stack deploy 部署服务
-docker stack deploy -c docker-compose.swarm.yml mock-server-stack
+docker stack deploy -c ./docker-compose.swarm.yml mock-server-stack
 
 # 查看部署状态
 docker stack services mock-server-stack
 docker stack rm mock-server-stack
 docker service ps mock-server-stack_app
 
-# 更新服务
-docker stack deploy -c docker-compose.swarm.yml mock-server-stack
-
 # 扩展服务
-docker service scale mock-server-stack_app=3
+docker service scale mock-server-stack_app=5
 
 # 回滚更新
 docker service rollback mock-server-stack_app
-
+docker stack deploy -c ./docker-compose.swarm.yml mock-server-stack
 # 删除堆栈
 docker stack rm mock-server-stack
 
 # 更新单个服务
 docker service update \
-  --image tianzhitong/mock-app-server:1.0.5 \
+  --image tianzhitong/mock-app-server:latest \
   mock-server-stack_app
+
+# 重启单个服务
+docker service update --force mock-server-stack_app
 
 # 监控更新状态
 docker service ps mock-server-stack_app
@@ -194,3 +198,6 @@ docker stack ls
 docker stack services myapp
 docker stack ps myapp
 docker stack rm myapp
+
+# 生成ssh key文件
+ssh-keygen -t rsa -b 4096 -C "laotianwy@163.com"
