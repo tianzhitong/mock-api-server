@@ -12,12 +12,6 @@ on:
 # 定义环境变量
 env:
   IMAGE_NAME: mock-app-server
-  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  DOCKER_ACCOUNT: ${{ secrets.DOCKER_ACCOUNT }}
-  DOCKER_ACCOUNT_PASSWORD: ${{ secrets.DOCKER_ACCOUNT_PASSWORD }}
-  REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-  REMOTE_HOST_PASSWORD: ${{ secrets.REMOTE_HOST_PASSWORD }}
 
 # 定义任务
 jobs:
@@ -33,8 +27,8 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_ACCOUNT }}
+          password: ${{ secrets.DOCKER_ACCOUNT_PASSWORD }}
 
       # 3. 拉取docker buildx 构建工具
       - name: Set up Docker Buildx
