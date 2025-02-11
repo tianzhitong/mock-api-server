@@ -40,7 +40,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME}}:latest
+          tags: ${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:latest
           platforms: linux/amd64,linux/arm64
 
       # 4. 推送 Docker 镜像到 Docker Hub
