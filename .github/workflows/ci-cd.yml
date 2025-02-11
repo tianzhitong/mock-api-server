@@ -51,11 +51,11 @@ jobs:
 
       # 4. 推送 Docker 镜像到 Docker Hub
       - name: ssh remote
-        uses: easingthemes/ssh-deploy@main
+        uses: appleboy/ssh-action@master
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}        
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: "root"
-        script: |
+          host: ${{ secrets.REMOTE_HOST }}
+          username: "root"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
             cd /mock-app-server/
             ./restart_service.sh
