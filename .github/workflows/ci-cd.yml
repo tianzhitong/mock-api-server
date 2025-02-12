@@ -37,7 +37,7 @@ jobs:
       # 3-2: 获取构建次数
       - name: Get the current commit count
         id: get_commit_count
-        run: echo "COMMIT_COUNT=$(git rev-list --count HEAD)" >> $GITHUB_ENV
+        run: echo "IMAGE_TAG=1.1.$(git rev-list --count HEAD)" >> $GITHUB_ENV
 
       # 4. 构建 Docker 镜像并推送
       - name: Build and push
@@ -47,7 +47,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:latest
-            ${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:1.0.${{ env.COMMIT_COUNT }}
+            ${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }}
           platforms: linux/amd64,linux/arm64
 
       # 4. 推送 Docker 镜像到 Docker Hub
@@ -59,4 +59,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /mock-app-server/
-            ./restart_service.sh "${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:1.0.${{ env.COMMIT_COUNT }}"
+            ./restart_service.sh "${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }}"
