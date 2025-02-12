@@ -57,11 +57,9 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-    depends_on:
-      - mysql
-      - redis
     networks:
       - nestjs-network
+    # entrypoint: ["./wait-for-it.sh", "mysql:3306", "redis:6379", "--", "sh", "-c", "pnpm migrate:deploy && pnpm start:prod"]
     deploy:
       replicas: 2
       update_config:
@@ -70,7 +68,8 @@ services:
         failure_action: rollback
       restart_policy:
         condition: on-failure
-        max_attempts: 2
+        max_attempts: 10
+        delay: 10s
       resources:
         limits:
           cpus: '0.5'
