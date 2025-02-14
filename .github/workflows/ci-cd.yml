@@ -62,4 +62,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /mock-app-server
+            rm -rf output.log
             nohup ./restart_service.sh "${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }}" > output.log 2>&1 &
