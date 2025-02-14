@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-12 20:01:15
+ * @LastEditTime: 2025-02-14 01:58:05
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -120,9 +120,16 @@ docker push tianzhitong/mock-app-server:latest
 # 查看镜像架构
 docker inspect 【镜像id】 --format '{{.Architecture}}'
 
+# 查看服务器架构
+docker info --format '{{.Architecture}}'
+
 # 构建并推送多架构镜像：
 docker buildx build --platform linux/amd64,linux/arm64 -t tianzhitong/mock-app-server:1.0.2 --push .
 docker buildx build --platform linux/amd64,linux/arm64 -t tianzhitong/mock-app-server:1.0.1 --output type=image .
+
+
+docker buildx build --platform linux/amd64 -t wang-bo-project:1.0.0 --output type=image .
+docker buildx build --platform linux/amd64 -t wang-bo-project:1.0.1 --output type=tar,dest=wangbo.tar .
 
 docker buildx build \
   --platform linux/amd64 \
@@ -174,7 +181,7 @@ docker stack rm mock-server-stack
 docker service ps mock-server-stack_app
 
 # 扩展服务
-docker service scale mock-server-stack_app=5
+docker service scale mock-server-stack_app=3
 
 # 回滚更新
 docker service rollback mock-server-stack_app
