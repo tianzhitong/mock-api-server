@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-14 17:35:29
+ * @LastEditTime: 2025-02-15 21:14:14
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -175,13 +175,17 @@ docker swarm init
 # 使用 docker stack deploy 部署服务
 docker stack deploy -c ./docker-compose.swarm.yml mock-server-stack
 
+# 部署单个服务
+docker service create --name cms --replicas 3 -p 80:80 tianzhitong/mock-app-cms:latest
+
+
 # 查看部署状态
 docker stack services mock-server-stack
 docker stack rm mock-server-stack
 docker service ps mock-server-stack_app
 
 # 扩展服务
-docker service scale mock-server-stack_app=3
+docker service scale mock-server-stack_app=2
 
 # 回滚更新
 docker service rollback mock-server-stack_app

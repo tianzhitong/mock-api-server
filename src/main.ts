@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 20:42:21
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-15 17:42:58
+ * @LastEditTime: 2025-02-15 21:25:51
  * @FilePath: /mock-api-serve/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -22,8 +22,13 @@ async function bootstrap() {
         bufferLogs: true,
     });
 
+    // 读取环境配置
+    const envConfig = app.get(ConfigService);
+    // 获取端口号
+    const { host, port = 3000, globalApiPrefix, corsUrl } = envConfig.get('app');
+
     // 启用cors 浏览器端跨域访问接口数据
-    app.enableCors({ origin: 'http://localhost', credentials: true });
+    app.enableCors({ origin: corsUrl, credentials: true });
 
     // 作用就是可以让自定义校验器可以支持依赖注入
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
@@ -54,11 +59,6 @@ async function bootstrap() {
 
     // 更换日志系统
     app.useLogger(app.get(LoggerService));
-
-    // 读取环境配置
-    const envConfig = app.get(ConfigService);
-    // 获取端口号
-    const { host, port = 3000, globalApiPrefix } = envConfig.get('app');
 
     // 启用全局接口前缀
     app.setGlobalPrefix(globalApiPrefix);
