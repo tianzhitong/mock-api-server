@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-15 17:10:15
+ * @LastEditTime: 2025-02-16 00:51:10
  * @FilePath: /mock-api-serve/src/user/user.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -97,9 +97,9 @@ export class UserController {
         const pngBuffer = await sharp(Buffer.from(genSvgData.data)).png().toBuffer();
         res.cookie('captcha', genSvgData.text, {
             path: '/',
-            httpOnly: true,
-            sameSite: true,
-            maxAge: 60 * 1000,
+            httpOnly: true, // 如果希望客户端可以修改 Cookie，设置 httpOnly: false
+            sameSite: 'strict', // sameSite 属性：sameSite 属性可以设置为 'strict'、'lax' 或 true（等同于 'strict'）。如果你需要跨站请求时携带 Cookie，可以考虑将其设置为 'none'，但这需要同时设置 secure 属性（即 Cookie 只能通过 HTTPS 传输）。
+            maxAge: 60 * 1000, // 生效时间
         });
         res.type('image/png');
         res.send(pngBuffer);

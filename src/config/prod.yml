@@ -2,7 +2,7 @@
 app:
   host: '0.0.0.0'
   # 跨域网址设置
-  corsUrl: http://1.95.80.219
+  corsUrl: https://mock-api-cms-git-testtian-laotinwys-projects.vercel.app
   # 全局接口前缀
   globalApiPrefix: mock
   # 后端服务端口
