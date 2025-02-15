@@ -1,6 +1,31 @@
 version: '3.8'
 
 services:
+  # ssr服务
+  ssr:
+    # build: .
+    image: tianzhitong/mock-app-cms:latest
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - nestjs-network
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+        max_attempts: 10
+        delay: 10s
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
   # MySQL 服务
   mysql:
     image: mysql:latest
