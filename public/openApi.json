@@ -342,7 +342,7 @@
           "200": {
             "description": "获取验证码",
             "content": {
-              "image/svg+xml": {
+              "image/png": {
                 "schema": {
                   "type": "string",
                   "format": "binary"

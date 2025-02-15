@@ -2,18 +2,19 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-23 00:05:38
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-23 00:16:23
+ * @LastEditTime: 2025-02-15 14:21:31
  * @FilePath: /mock-api-serve/src/setup-swagger.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 
-import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { RawServerDefault } from 'fastify';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
-export const setupSwagger = (app: INestApplication, configService: ConfigService) => {
+export const setupSwagger = (app: NestFastifyApplication<RawServerDefault>, configService: ConfigService) => {
     const { enabled, path } = configService.get('swagger');
 
     if (!enabled) return;
@@ -34,8 +35,12 @@ export const setupSwagger = (app: INestApplication, configService: ConfigService
 
     // 使用配置对象创建 Swagger 文档
     const document = SwaggerModule.createDocument(app, config);
+    app.useStaticAssets({
+        root: join(process.cwd(), 'public'),
+        prefix: '/public',
+    });
     // 生成的openai数据写入到本地项目
-    writeFileSync(join(process.cwd(), 'openApi.json'), JSON.stringify(document, null, 2));
+    writeFileSync(join(process.cwd(), '/public', 'openApi.json'), JSON.stringify(document, null, 2));
     // 设置 Swagger 模块的路径和文档对象，将 Swagger UI 绑定到 '/api-doc' 路径上
     SwaggerModule.setup(path, app, document, {
         jsonDocumentUrl: 'swagger/json',

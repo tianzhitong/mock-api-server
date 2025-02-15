@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-01-24 13:32:46
+ * @LastEditTime: 2025-02-15 17:10:15
  * @FilePath: /mock-api-serve/src/user/user.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -30,6 +30,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { UserQueryDto } from './dto/user.dto';
 import { UserEntity } from './user.entity';
 import { BusinessException } from 'src/common/exceptions/business.exception';
+import * as sharp from 'sharp';
 
 @ApiTags('User')
 @Controller('user')
@@ -81,7 +82,7 @@ export class UserController {
         status: 200,
         description: '获取验证码',
         content: {
-            'image/svg+xml': {
+            'image/png': {
                 schema: {
                     type: 'string',
                     format: 'binary',
@@ -92,12 +93,15 @@ export class UserController {
     async getCaptcha(@Res() res: FastifyReply) {
         // 生成验证码svg数据,然后发送到客户端
         const genSvgData = captcha();
+        // 将 SVG 转换为 PNG
+        const pngBuffer = await sharp(Buffer.from(genSvgData.data)).png().toBuffer();
         res.cookie('captcha', genSvgData.text, {
             path: '/',
             httpOnly: true,
+            sameSite: true,
             maxAge: 60 * 1000,
         });
-        res.type('image/svg+xml');
-        res.send(genSvgData.data);
+        res.type('image/png');
+        res.send(pngBuffer);
     }
 }
