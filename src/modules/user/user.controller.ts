@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-19 21:06:00
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-16 21:57:51
+ * @LastEditTime: 2025-02-17 01:05:55
  * @FilePath: /mock-api-serve/src/user/user.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -62,13 +62,10 @@ export class UserController {
 
     @Post('login')
     @ApiResult({ model: String })
-    async login(
-        @Body() loginUserDTO: LoginUserDTO,
-        // @Req() req: FastifyRequest
-    ) {
-        // if ((req.cookies?.captcha ?? '').toLowerCase() !== loginUserDTO.captcha.toLowerCase()) {
-        //     throw new BusinessException('验证码不正确或已过期');
-        // }
+    async login(@Body() loginUserDTO: LoginUserDTO, @Req() req: FastifyRequest) {
+        if ((req.cookies?.captcha ?? '').toLowerCase() !== loginUserDTO.captcha.toLowerCase()) {
+            throw new BusinessException('验证码不正确或已过期');
+        }
         return this.userService.login(loginUserDTO);
     }
 
