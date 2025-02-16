@@ -41,7 +41,287 @@
     },
     "/mock/mock/clientGetMockData": {
       "get": {
-        "operationId": "MockController_clientGetMockData",
+        "operationId": "MockController_clientGetMockData_get",
+        "parameters": [
+          {
+            "name": "projectName",
+            "required": true,
+            "in": "query",
+            "description": "项目名字",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiUrl",
+            "required": true,
+            "in": "query",
+            "description": "接口url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiMethod",
+            "required": true,
+            "in": "query",
+            "description": "接口方法",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      },
+      "post": {
+        "operationId": "MockController_clientGetMockData_post",
+        "parameters": [
+          {
+            "name": "projectName",
+            "required": true,
+            "in": "query",
+            "description": "项目名字",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiUrl",
+            "required": true,
+            "in": "query",
+            "description": "接口url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiMethod",
+            "required": true,
+            "in": "query",
+            "description": "接口方法",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      },
+      "put": {
+        "operationId": "MockController_clientGetMockData_put",
+        "parameters": [
+          {
+            "name": "projectName",
+            "required": true,
+            "in": "query",
+            "description": "项目名字",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiUrl",
+            "required": true,
+            "in": "query",
+            "description": "接口url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiMethod",
+            "required": true,
+            "in": "query",
+            "description": "接口方法",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      },
+      "delete": {
+        "operationId": "MockController_clientGetMockData_delete",
+        "parameters": [
+          {
+            "name": "projectName",
+            "required": true,
+            "in": "query",
+            "description": "项目名字",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiUrl",
+            "required": true,
+            "in": "query",
+            "description": "接口url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiMethod",
+            "required": true,
+            "in": "query",
+            "description": "接口方法",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      },
+      "patch": {
+        "operationId": "MockController_clientGetMockData_patch",
+        "parameters": [
+          {
+            "name": "projectName",
+            "required": true,
+            "in": "query",
+            "description": "项目名字",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiUrl",
+            "required": true,
+            "in": "query",
+            "description": "接口url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiMethod",
+            "required": true,
+            "in": "query",
+            "description": "接口方法",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      },
+      "options": {
+        "operationId": "MockController_clientGetMockData_options",
+        "parameters": [
+          {
+            "name": "projectName",
+            "required": true,
+            "in": "query",
+            "description": "项目名字",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiUrl",
+            "required": true,
+            "in": "query",
+            "description": "接口url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiMethod",
+            "required": true,
+            "in": "query",
+            "description": "接口方法",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      },
+      "head": {
+        "operationId": "MockController_clientGetMockData_head",
+        "parameters": [
+          {
+            "name": "projectName",
+            "required": true,
+            "in": "query",
+            "description": "项目名字",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiUrl",
+            "required": true,
+            "in": "query",
+            "description": "接口url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "apiMethod",
+            "required": true,
+            "in": "query",
+            "description": "接口方法",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      },
+      "search": {
+        "operationId": "MockController_clientGetMockData_search",
         "parameters": [
           {
             "name": "projectName",
