@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-22 23:04:56
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-15 21:14:14
+ * @LastEditTime: 2025-02-16 23:07:16
  * @FilePath: /mock-api-serve/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -185,7 +185,7 @@ docker stack rm mock-server-stack
 docker service ps mock-server-stack_app
 
 # 扩展服务
-docker service scale mock-server-stack_app=2
+docker service scale mock-server-stack_app=1
 
 # 回滚更新
 docker service rollback mock-server-stack_app

@@ -1,8 +1,6 @@
 # 开发环境配置
 app:
   host: 'localhost'
-  # 跨域网址设置
-  corsUrl: http://localhost
   # 全局接口前缀
   globalApiPrefix: mock
   # 后端服务端口

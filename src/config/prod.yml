@@ -1,8 +1,6 @@
 # 生产环境配置
 app:
   host: '0.0.0.0'
-  # 跨域网址设置
-  corsUrl: http://1.95.80.219
   # 全局接口前缀
   globalApiPrefix: mock
   # 后端服务端口
