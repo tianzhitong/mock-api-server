@@ -51,7 +51,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:latest
             ${{ secrets.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
 
       # 4. 推送 Docker 镜像到 Docker Hub
       - name: ssh remote
