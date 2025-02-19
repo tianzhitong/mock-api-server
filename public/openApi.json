@@ -15,6 +15,48 @@
         ]
       }
     },
+    "/mock/mock/delelteMockByProjectName": {
+      "post": {
+        "operationId": "MockController_delelteMockByProjectName",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteMockDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ResponseModel"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      }
+    },
     "/mock/mock/createMockApi": {
       "post": {
         "operationId": "MockController_createMockApi",
@@ -874,6 +916,39 @@
       }
     },
     "schemas": {
+      "ResponseModel": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object"
+          },
+          "code": {
+            "type": "number",
+            "default": 200
+          },
+          "message": {
+            "type": "string",
+            "default": "success"
+          }
+        },
+        "required": [
+          "data",
+          "code",
+          "message"
+        ]
+      },
+      "DeleteMockDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "项目id"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
       "CreateMockDto": {
         "type": "object",
         "properties": {
@@ -936,27 +1011,6 @@
         "required": [
           "name",
           "modelData"
-        ]
-      },
-      "ResponseModel": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "object"
-          },
-          "code": {
-            "type": "number",
-            "default": 200
-          },
-          "message": {
-            "type": "string",
-            "default": "success"
-          }
-        },
-        "required": [
-          "data",
-          "code",
-          "message"
         ]
       },
       "UserEntity": {
