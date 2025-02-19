@@ -15,9 +15,9 @@
         ]
       }
     },
-    "/mock/mock/delelteMockByProjectName": {
+    "/mock/mock/delelteMockByProjectId": {
       "post": {
-        "operationId": "MockController_delelteMockByProjectName",
+        "operationId": "MockController_delelteMockByProjectId",
         "parameters": [],
         "requestBody": {
           "required": true,

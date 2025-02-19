@@ -2,7 +2,7 @@
  * @Author: laotianwy 1695657342@qq.com
  * @Date: 2025-01-20 20:15:15
  * @LastEditors: laotianwy 1695657342@qq.com
- * @LastEditTime: 2025-02-19 19:50:55
+ * @LastEditTime: 2025-02-19 19:54:33
  * @FilePath: /mock-api-serve/src/modules/mock/mock.service.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -20,7 +20,7 @@ export class MockService {
         private readonly responseModelService: ResponseModelService,
     ) {}
 
-    async delelteMockByProjectName(id: number) {
+    async delelteMockByProjectId(id: number) {
         return this.prisma.$transaction(async (tx) => {
             // 根据id查询项目
             const findProject = await tx.reponseModel.findFirst({
