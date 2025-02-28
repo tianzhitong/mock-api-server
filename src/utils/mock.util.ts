@@ -45,20 +45,27 @@ const isObject = (obj: any) => {
 };
 
 export const genMockApiData = (data: any, responseModel: object) => {
-    const template = {};
+    let template = {};
     if (typeof data === 'object' && data !== null) {
         const keys = Reflect.ownKeys(data);
         keys.forEach((key) => {
-            const result = generateMockData(data, key);
-            template[key] = result;
+            if(Array.isArray(data[key])) {
+                const result = generateMockData(data, key);
+                const newKey = Object.keys(result ?? {})[0];
+                template = {...template, [newKey]: [result[newKey]]};
+            }else {
+                const result = generateMockData(data, key);
+                template[key] = result;
+            }
+
         });
     }
-
     // 使用 mock.mock 生成数据
     const mockData = mock({
         ...template,
         ...responseModel,
     });
+
     return mockData;
 };
 
@@ -117,3 +124,4 @@ const generateMockData = (data: any, parentKey: string | symbol) => {
     }
     return result;
 };
+
