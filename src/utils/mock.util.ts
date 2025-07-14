@@ -82,7 +82,7 @@ const generateMockData = (data: any, parentKey: string | symbol) => {
             if (/time/i.test(String(parentKey))) {
                 mockTpl = '@now';
             }
-            if (/head/i.test(String(parentKey)) || /img/i.test(String(parentKey))) {
+            if (/head/i.test(String(parentKey)) || /img/i.test(String(parentKey)) || /image/i.test(String(parentKey))) {
                 mockTpl = '@img(200X200)';
             }
             if (/link/i.test(String(parentKey))) {
