@@ -225,3 +225,7 @@ nano ~/.ssh/known_hosts
 
 # 查看文件内容
 tail -f -n 5 logfile.txt
+
+
+# 迁移prisma版本
+npx prisma migrate dev --name mock_table_add_apimethod_length

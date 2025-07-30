@@ -8,11 +8,19 @@
  */
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class DeleteMockDto {
     @ApiProperty({ required: true, type: Number, description: '项目id' })
     @IsNumber()
     @IsNotEmpty()
     id: number;
+}
+
+
+export class DeleteMockByProjectNameDto {
+    @ApiProperty({ required: true, type: String, description: '项目名字' })
+    @IsString()
+    @IsNotEmpty()
+    projectName: string;
 }

@@ -25,13 +25,14 @@ model Mock {
   id                           Int       @id @default(autoincrement())
   project_name                 String    @default("default") @db.VarChar(255)
   api_url                      String    @db.VarChar(255)
-  api_method                   String    @db.Char(6)
+  api_method                   String    @db.Char(10)
   query                        String?   @db.VarChar(255)
   response_to_mock_struct_data String?   @db.LongText()
   create_at                    DateTime  @default(now()) @db.Timestamp(6)
   update_at                    DateTime  @updatedAt
   delete_at                    DateTime?
 
+  @@unique([project_name, api_url, api_method])
   @@index([project_name, api_url, api_method])
   @@map("mock")
 }

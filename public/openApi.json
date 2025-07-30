@@ -57,6 +57,48 @@
         ]
       }
     },
+    "/mock/mock/deleteMockByProjectName": {
+      "post": {
+        "operationId": "MockController_deleteMockByProjectName",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteMockByProjectNameDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ResponseModel"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Mock"
+        ]
+      }
+    },
     "/mock/mock/createMockApi": {
       "post": {
         "operationId": "MockController_createMockApi",
@@ -947,6 +989,18 @@
         },
         "required": [
           "id"
+        ]
+      },
+      "DeleteMockByProjectNameDto": {
+        "type": "object",
+        "properties": {
+          "projectName": {
+            "type": "string",
+            "description": "项目名字"
+          }
+        },
+        "required": [
+          "projectName"
         ]
       },
       "CreateMockDto": {

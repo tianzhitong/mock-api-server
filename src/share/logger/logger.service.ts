@@ -27,11 +27,11 @@ export class LoggerService extends ConsoleLogger {
     }
 
     protected get level(): LogLevel {
-        return this.configService.get('app.logger.level', { infer: true }) as LogLevel;
+        return this.configService.get('app.logger.level', LogLevel.DEBUG) as LogLevel;
     }
 
     protected get maxFiles(): number {
-        return this.configService.get('app.logger.maxFiles', { infer: true });
+        return this.configService.get('app.logger.maxFiles', 31) as number;
     }
 
     protected initWinston(): void {

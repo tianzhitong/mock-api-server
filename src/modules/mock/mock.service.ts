@@ -45,6 +45,31 @@ export class MockService {
         });
     }
 
+
+    async deleteMockByProjectName(projectName: string) {
+        return this.prisma.$transaction(async (tx) => {
+            // 根据id查询项目
+            const findProject = await tx.reponseModel.findFirst({
+                where: {
+                    name: projectName
+                },
+            });
+            if (!findProject) {
+                throw new BusinessException('该项目不存在');
+            }
+            await tx.reponseModel.delete({
+                where: {
+                    name: projectName,
+                },
+            });
+            await tx.mock.deleteMany({
+                where: {
+                    project_name: projectName,
+                },
+            });
+        });
+    }
+
     async createMockApi(list: CreateMockDto[]) {
         const insertProjectName = (list[0]?.projectName ?? '').trim();
         const newInsertData = list.map((item) => {
@@ -57,6 +82,7 @@ export class MockService {
             };
         });
         return this.prisma.$transaction(async (tx) => {
+            // 更新或创建项目
             await tx.reponseModel.upsert({
                 where: {
                     name: insertProjectName,
@@ -68,38 +94,24 @@ export class MockService {
                     name: insertProjectName,
                 },
             });
-            const findExist = await tx.mock.findMany({
-                where: {
-                    project_name: {
-                        in: list.map(() => insertProjectName),
+
+            // 遍历每条数据进行更新或创建
+            for (const item of newInsertData) {
+                await tx.mock.upsert({
+                    where: {
+                        project_name_api_url_api_method: {
+                            project_name: item.project_name,
+                            api_url: item.api_url,
+                            api_method: item.api_method,
+                        },
                     },
-                    api_url: {
-                        in: list.map((item) => item.apiUrl),
+                    update: {
+                        query: item.query,
+                        response_to_mock_struct_data: item.response_to_mock_struct_data
                     },
-                    api_method: {
-                        in: list.map((item) => item.apiMethod),
-                    },
-                },
-            });
-            if (findExist.length === 0) {
-                return await this.prisma.mock.createMany({
-                    data: newInsertData,
+                    create: item
                 });
             }
-
-            const filterYetExistData = newInsertData.filter((item) => {
-                return !findExist.some((existItem) => {
-                    return (
-                        existItem.project_name === item.project_name &&
-                        existItem.api_url === item.api_url &&
-                        existItem.api_method === item.api_method
-                    );
-                });
-            });
-
-            return await this.prisma.mock.createMany({
-                data: filterYetExistData,
-            });
         });
     }
 

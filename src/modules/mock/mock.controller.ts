@@ -11,7 +11,7 @@ import { MockService } from './mock.service';
 import { ApiTags } from '@nestjs/swagger';
 import { ClientGetMockDataDtO, CreateMockListDto } from './dto/create-mock.dto';
 import { Bypass } from 'src/common/decorators/bypass.decorator';
-import { DeleteMockDto } from './dto/delete-mock.dto';
+import { DeleteMockByProjectNameDto, DeleteMockDto } from './dto/delete-mock.dto';
 import { ApiResult } from 'src/common/decorators/api-result.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from '@prisma/client';
@@ -28,6 +28,15 @@ export class MockController {
     })
     async delelteMockByProjectId(@Body() deleteMockDto: DeleteMockDto) {
         await this.mockService.delelteMockByProjectId(deleteMockDto.id);
+        return true;
+    }
+
+    @Post('deleteMockByProjectName')
+    @ApiResult({
+        model: Boolean,
+    })
+    async deleteMockByProjectName(@Body() deleteMockDto: DeleteMockByProjectNameDto) {
+        await this.mockService.deleteMockByProjectName(deleteMockDto.projectName)
         return true;
     }
 
