@@ -22,6 +22,22 @@ export class ResponseModelService {
         });
     }
 
+    async returnAllModel() {
+        // 查询reponseModel的数组。并且查询mock表project_name有多少条数据
+        const reponseModel = await this.prismaService.reponseModel.findMany();
+        const mock = await this.prismaService.mock.findMany();
+        const mockCount = mock.reduce((acc, item) => {
+            acc[item.project_name] = (acc[item.project_name] || 0) + 1;
+            return acc;
+        }, {});
+        return reponseModel.map((item) => {
+            return {
+                ...item,
+                mockApiCount: mockCount[item.name] || 0,
+            };
+        });
+    }
+
     async updateResponseModelDto(updateResponseModelDto: ResponseModelDto) {
         await this.prismaService.reponseModel.update({
             where: {

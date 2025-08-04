@@ -6,9 +6,10 @@
  * @FilePath: /mock-api-serve/src/modules/response_model/response_model.controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ResponseModelService } from './response_model.service';
 import { ResponseModelDto } from './dto/response-model.dto';
+import { ApiResult } from 'src/common/decorators/api-result.decorator';
 
 @Controller('responseModel')
 export class ResponseModelController {
@@ -17,5 +18,13 @@ export class ResponseModelController {
     @Post('editResponseModel')
     async editResponseModelDto(@Body() body: ResponseModelDto) {
         await this.responseModelService.updateResponseModelDto(body);
+    }
+
+    @Get('returnAllModel')
+    @ApiResult({
+        model: Array<ResponseModelDto>,
+    })
+    async returnAllModel() {
+        return await this.responseModelService.returnAllModel();
     }
 }

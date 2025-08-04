@@ -469,6 +469,38 @@
         ]
       }
     },
+    "/mock/responseModel/returnAllModel": {
+      "get": {
+        "operationId": "ResponseModelController_returnAllModel",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ResponseModel"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/Array"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ResponseModel"
+        ]
+      }
+    },
     "/mock/user/getUserList": {
       "get": {
         "operationId": "UserController_getUserList",
@@ -1066,6 +1098,10 @@
           "name",
           "modelData"
         ]
+      },
+      "Array": {
+        "type": "object",
+        "properties": {}
       },
       "UserEntity": {
         "type": "object",
